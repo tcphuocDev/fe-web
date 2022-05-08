@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es6",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "checkJs": true,
+    "jsx": "react",
+    "baseUrl": "./src",
+    "paths": {
+        "@components/*": ["src/components/*"],
+        "@stores/*":["src/stores/*"],
+        "@containers/*":["src/containers/*"]
+    }
+  }
+}
