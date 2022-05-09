@@ -15,7 +15,10 @@
     "paths": {
         "@components/*": ["src/components/*"],
         "@stores/*":["src/stores/*"],
-        "@containers/*":["src/containers/*"]
+        "@containers/*":["src/containers/*"],
+        "@pages/*":["src/pages/*"],
+        "@sass/*":["src/sass/*"],
+        "@assets/*":["src/assets/*"]
     }
   }
 }
