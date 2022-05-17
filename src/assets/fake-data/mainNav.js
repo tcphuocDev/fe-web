@@ -9,11 +9,6 @@ const mainNav = [
 		slug: 'catalog',
 	},
 	{
-		display: 'Phụ kiện',
-		path: '/accessories',
-		slug: 'accessories',
-	},
-	{
 		display: 'Liên hệ',
 		path: '/contact',
 	},
