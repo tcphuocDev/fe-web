@@ -11,7 +11,7 @@ const footerAboutLinks = [
 	},
 	{
 		display: 'Liên hệ',
-		path: '/about',
+		path: '/contact',
 	},
 	{
 		display: 'Tuyển dụng',
@@ -30,7 +30,7 @@ const footerAboutLinks = [
 const footerCustomerLinks = [
 	{
 		display: 'Chính sách đổi trả',
-		path: '/about',
+		path: '/return-policy',
 	},
 	{
 		display: 'Chính sách bảo hành',

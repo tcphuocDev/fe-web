@@ -1,0 +1,41 @@
+.about{
+   &__title{
+     font-size: 30px;
+     margin: 10px 0 20px;
+   }
+
+
+   &__content{
+     &__item{
+      h4{
+        font-size: 20px;
+        margin: 0 0 8px;
+      }
+
+      p{
+        font-size: 14px;
+        margin: 0 0 15px;
+      }
+      span{
+        font-size: 12px;
+        font-style: italic;
+      }
+      & > ul > li {
+        list-style:circle;
+        margin: 0 20px;
+      }
+
+      &__child{
+        h5{
+          font-size: 14px;
+          font-weight: bold;
+        }
+        & > ul > li{
+          list-style: circle;
+          margin: 0 20px;
+        }
+      }
+
+    }
+   }
+}
