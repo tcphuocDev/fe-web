@@ -1,0 +1,28 @@
+.return__policy{
+  &__title__head{
+    font-size: 30px;
+    margin: 10px 0 20px;
+  }
+  &__content{
+    p{
+      font-size: 14px;
+      font-style: italic;
+      margin: 0 0 15px;
+      font-weight: bold;
+    }
+    &__page{
+      h2{
+        font-size: 20px;
+      }
+
+     &__item{
+      img{
+        margin: 40px 0;
+      }
+      em{
+        @include flex(center,center);
+      }
+     }
+    }
+  }
+}

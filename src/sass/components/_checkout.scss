@@ -1,0 +1,32 @@
+.checkout{
+  @include flex(flex-start,flex-start);
+
+  @include mobile{
+    flex-direction: column;
+    @include flex(center,center)
+  }
+  &__info{
+    width: 50%;
+  }
+
+  &__cart{
+    width: 50%;
+
+    &__content{
+
+
+      &__table{
+          width: 100%;
+          border-bottom: 2px solid $main-color;
+          text-align: center;
+
+          &__listOrder{
+          border-top: 2px solid $main-color;
+
+          }
+        
+      }
+    }
+  }
+
+}
