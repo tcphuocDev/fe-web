@@ -38,7 +38,7 @@ const Header = () => {
 	const menuLeft = useRef(null);
 
 	const menuToggle = () => menuLeft.current.classList.toggle('active');
-
+	const user = true;
 	return (
 		<div className='header' ref={headerRef}>
 			<div className='container'>
@@ -82,7 +82,15 @@ const Header = () => {
 							</div>
 						</div>
 						<div className='header__menu__item header__menu__right__item'>
-							<i className='bx bx-user'></i>
+							{user ? (
+								<Link to='/profile'>
+									<i className='bx bx-user'></i>
+								</Link>
+							) : (
+								<Link to='/login'>
+									<i className='bx bx-user'></i>
+								</Link>
+							)}
 						</div>
 					</div>
 				</div>

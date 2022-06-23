@@ -8,6 +8,7 @@
     cursor: pointer;
     overflow: hidden;
     position: relative;
+    margin-bottom: 20px;
 
     @include mobile {
         font-size: 1rem;
