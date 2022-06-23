@@ -1,109 +1,163 @@
 // @ts-nocheck
+import Button from 'components/Button';
+import Helmet from 'components/Helmet';
 import React, { useEffect, useState } from 'react';
-import { Form, Input, InputNumber, Button } from 'antd';
-const layout = {
-	labelCol: {
-		span: 2,
-	},
-	wrapperCol: {
-		span: 16,
-	},
-};
-/* eslint-disable no-template-curly-in-string */
-
-const validateMessages = {
-	required: '${label} is required!',
-	types: {
-		email: '${label} is not a valid email!',
-		number: '${label} is not a valid number!',
-	},
-	number: {
-		range: '${label} must be between ${min} and ${max}',
-	},
-};
-/* eslint-enable no-template-curly-in-string */
-
+import imagePrudct from '../../assets/images/products/product-01 (1).jpg';
 const Checkout = () => {
-	const onFinish = (values) => {
-		console.log(values);
-	};
 	return (
-		<div className='checkout'>
-			<div className='checkout__info'>
-				<div className='checkout__info__title'>Thông tin hóa đơn</div>
-				<Form
-					{...layout}
-					name='nest-messages'
-					onFinish={onFinish}
-					validateMessages={validateMessages}
-				>
-					<Form.Item
-						name={['user', 'name']}
-						label='Name'
-						rules={[
-							{
-								required: true,
-							},
-						]}
-					>
-						<Input />
-					</Form.Item>
-					<Form.Item
-						name={['user', 'email']}
-						label='Email'
-						rules={[
-							{
-								type: 'email',
-							},
-						]}
-					>
-						<Input />
-					</Form.Item>
-					<Form.Item
-						name={['user', 'age']}
-						label='Age'
-						rules={[
-							{
-								type: 'number',
-								min: 0,
-								max: 99,
-							},
-						]}
-					>
-						<InputNumber />
-					</Form.Item>
-					<Form.Item name={['user', 'website']} label='Website'>
-						<Input />
-					</Form.Item>
-					<Form.Item name={['user', 'introduction']} label='Introduction'>
-						<Input.TextArea />
-					</Form.Item>
-					<Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-						<Button type='primary' htmlType='submit'>
-							Submit
-						</Button>
-					</Form.Item>
-				</Form>
-			</div>
-			<div className='checkout__cart'>
-				<div className='checkout__info__title'>Thông tin giỏ hàng</div>
-
-				<div className='checkout__cart__content'>
-					<table className='checkout__cart__content__table'>
-						<tr className='checkout__cart__content__table-th'>
-							<th>Tên sản phẩm</th>
-							<th>Số lượng</th>
-							<th>Giá</th>
-						</tr>
-						<tr className='checkout__cart__content__table__listOrder'>
-							<td>a</td>
-							<td>a</td>
-							<td>a</td>
-						</tr>
-					</table>
+		<Helmet title='Thanh toán'>
+			<div className='checkout grid'>
+				<div className='row wide'>
+					<div className='col l-4 c-12 checkout__column__item'>
+						<h1 className='checkout__column__item__heading'>
+							Thông tin hóa đơn
+						</h1>
+						<div className='checkout__column__item__form'>
+							<div className='checkout__column__item__form__group'>
+								<label htmlFor=''>Họ và tên</label>
+								<input type='text' name='' id='' />
+							</div>
+							<div className='checkout__column__item__form__group'>
+								<div className='row'>
+									<div className='col l-6 checkout__column__item__form__group__item'>
+										<label htmlFor=''>Email</label>
+										<input type='email' name='' id='' />
+									</div>
+									<div className='col l-6 checkout__column__item__form__group__item'>
+										<label htmlFor=''>Điện thoại</label>
+										<input type='tel' name='' id='' />
+									</div>
+								</div>
+							</div>
+							<div className='checkout__column__item__form__group'>
+								<label htmlFor=''>Địa Chỉ</label>
+								<input type='text' name='' id='' />
+							</div>
+							<div className='checkout__column__item__form__group'>
+								<div className='row'>
+									<div className='col l-6 checkout__column__item__form__group__item'>
+										<label htmlFor=''>Tỉnh/ Thành phố </label>
+										<input type='text' name='' id='' />
+									</div>
+									<div className='col l-6 checkout__column__item__form__group__item'>
+										<label htmlFor=''>Quận/ Huyện</label>
+										<input type='text' name='' id='' />
+									</div>
+								</div>
+							</div>
+							<div className='checkout__column__item__form__group'>
+								<label htmlFor=''>Phường/ Xã</label>
+								<input type='text' name='' id='' />
+							</div>
+							<div className='checkout__column__item__form__group'>
+								<label htmlFor=''>Ghi chú đơn hàng</label>
+								<textarea></textarea>
+							</div>
+						</div>
+					</div>
+					<div className='col l-4 c-12 checkout__column__item'>
+						<h1 className='checkout__column__item__heading'>
+							Phương thức thanh toán
+						</h1>
+						<div className='checkout__column__item__payment'>
+							<input type='radio' name='' id='' />
+							<span>Thanh toán tiền mặt khi nhận hàng (COD)</span>
+						</div>
+					</div>
+					<div className='col l-4 c-12 checkout__column__item'>
+						<h1 className='checkout__column__item__heading'>
+							Thông tin giỏ hàng
+						</h1>
+						<div className='checkout__column__item__table'>
+							<div className='table__header'>
+								<div className='row'>
+									<div className='col l-3 c-3 table__header__item'>
+										Hình ảnh
+									</div>
+									<div className='col l-3 c-3 table__header__item'>
+										Tên sản phẩm
+									</div>
+									<div className='col l-3 c-3 table__header__item'>
+										Số lượng
+									</div>
+									<div className='col l-3 c-3 table__header__item'>Giá</div>
+								</div>
+							</div>
+							<div className='table__item'>
+								<div className='col l-3 c-3 table__item__image'>
+									<img src={imagePrudct} alt='' />
+								</div>
+								<div className='col l-9 c-9 table__item__info'>
+									<div className='col l-4 c-4 table__item__info__name'>
+										<h4>
+											Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+										</h4>
+									</div>
+									<div className=' col l-2 c-2 table__item__info__quantity'>
+										<h4>4</h4>
+									</div>
+									<div className=' col l-3 c-3 able__item__info__price'>
+										<h4>265.000</h4>
+									</div>
+								</div>
+							</div>
+							<div className='table__item'>
+								<div className='col l-3 c-3 table__item__image'>
+									<img src={imagePrudct} alt='' />
+								</div>
+								<div className='col l-9 c-9 table__item__info'>
+									<div className='col l-4 c-4 table__item__info__name'>
+										<h4>
+											Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+										</h4>
+									</div>
+									<div className=' col l-2 c-2 table__item__info__quantity'>
+										<h4>4</h4>
+									</div>
+									<div className=' col l-3 c-3 able__item__info__price'>
+										<h4>265.000</h4>
+									</div>
+								</div>
+							</div>
+							<div className='payment'>
+								<div className='payment__item'>
+									<div className='col l-6 c-6 payment__item__title'>
+										<h4>Tạm tính</h4>
+									</div>
+									<div className='col l-6 c-6 payment__item__price'>
+										<h4>365.000 VND</h4>
+									</div>
+								</div>
+								<div className='payment__item'>
+									<div className='col l-6 c-6 payment__item__title'>
+										<h4>Phí vận chuyển</h4>
+									</div>
+									<div className='col l-6 c-6 payment__item__price'>
+										<h4>36.000 VND</h4>
+									</div>
+								</div>
+								<div className='payment__item'>
+									<div className='col l-6 c-6 payment__item__title'>
+										<h4>Tổng cộng</h4>
+									</div>
+									<div className='col l-6 c-6 payment__item__price'>
+										<h4>365.000 VND</h4>
+									</div>
+								</div>
+							</div>
+							<div className='button__group'>
+								<Button className='button__group__item' size='block'>
+									Tiếp tục mua hàng
+								</Button>
+								<Button className='button__group__item' size='block'>
+									Tiến hành thanh toán
+								</Button>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-		</div>
+		</Helmet>
 	);
 };
 

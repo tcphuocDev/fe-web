@@ -8,13 +8,14 @@ import Helmet from 'components/Helmet';
 import Button from 'components/Button';
 import numberWithCommas from 'utils/numberWithCommas';
 import CartItem from 'components/CartItem';
+import { useLocation } from 'react-router-dom';
 const Cart = () => {
+	const location = useLocation();
 	const cartItems = useSelector((state) => state.cartItems.value);
 
 	const [cartproducts, setCartProducts] = useState(
 		productData.getCartItemsInfo(cartItems),
 	);
-
 	const [totalProducts, setTotalProducts] = useState(0);
 	const [totalPrice, setTotalPrice] = useState(0);
 
@@ -43,7 +44,13 @@ const Cart = () => {
 						</div>
 					</div>
 					<div className='cart__info__btn'>
-						<Button size='block'>Đặt hàng</Button>
+						{cartproducts.length > 0 ? (
+							<Link to='/checkout'>
+								<Button size='block'>Đặt hàng</Button>
+							</Link>
+						) : (
+							''
+						)}
 						<Link to='/catalog'>
 							<Button size='block'>Tiếp tục mua hàng</Button>
 						</Link>

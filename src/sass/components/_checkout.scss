@@ -1,32 +1,112 @@
 .checkout{
-  @include flex(flex-start,flex-start);
+  &__column__item{
+    border-top: 1px solid $main-color;
+    border-right: 1px solid $main-color;
 
-  @include mobile{
-    flex-direction: column;
-    @include flex(center,center)
-  }
-  &__info{
-    width: 50%;
-  }
+    &:last-child{
+      border-right: none;
+    }
+    &__heading{
+      margin-top: 20px;
+      color: $main-color
+    }
+    &__form{
+      &__group{
+        label{
+          margin: 10px 0;
+          font-size: 15px;
+          color: $main-color;
+        }
+        display: flex;
+        flex-direction: column;
 
-  &__cart{
-    width: 50%;
-
-    &__content{
-
-
-      &__table{
+        input{
+          height: 30px;
+          font-size: 14px;
+        }
+        textarea{
           width: 100%;
-          border-bottom: 2px solid $main-color;
-          text-align: center;
+          height: 100px;
+        }
 
-          &__listOrder{
-          border-top: 2px solid $main-color;
+        &__item{
+          display: flex;
+          flex-direction: column;
 
+          input{
+            height: 30px;
+            font-size: 14px;
           }
+        }
+      }
+    }
+
+    &__payment{
+      margin: 10px 0;
+      
+      span{
+        margin-left: 10px;
+        font-size: 14px;
+      }
+    }
+    &__table{
+      .table__header{
+        font-size: 1rem;
+        padding: 15px 0;
+        margin-bottom: 10px;
+        border-bottom: 2px solid $main-color;
+        font-weight: bold;
+        &__item{
+          @include flex(center,center);
+        }
+      }
+      .table__item{
+        @include flex(center,flex-start);
+        border-bottom: 1px solid $main-color;
+        padding: 10px 0;
         
+        &__image{
+
+          img{
+             width:  100%;
+            object-fit: contain;
+          }
+        }
+        &__info{
+          @include flex(center,space-between);
+
+          @include mobile{
+            @include flex(flex-start,center);
+
+            & > * {
+              margin-bottom: 10px;
+            }
+          }
+          &__name,&__price,&__quantity{
+            font-size: 1rem;
+          }
+        }
+      }
+
+      .payment{
+        
+        &__item{
+          @include flex(center, flex-end);
+          padding:10px 0;
+          border-bottom: 1px solid $main-color;
+
+
+          &__price{
+            text-align: right;
+          }
+        }
+      }
+      .button__group{
+        margin-top: 10px;
+          & > * {
+            margin-bottom: 20px;
+        }
       }
     }
   }
-
 }
