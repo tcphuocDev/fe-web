@@ -4,11 +4,26 @@ import logo from '../assets/images/Logo.png';
 import facebook from '../assets/images/facebook.svg';
 import google from '../assets/images/google.svg';
 import linkedin from '../assets/images/linkedin.svg';
-const Login = () => {
+import { useDispatch } from 'react-redux';
+import { login } from 'redux/auth/authSlice';
+import { useHistory } from 'react-router-dom';
+const Login = (props) => {
 	const [loginForm, setLoginFrom] = useState();
 	const [name, setName] = useState('');
 	const [password, setPassword] = useState('');
 	const [email, setEmail] = useState('');
+	const dispatch = useDispatch();
+	const history = useHistory();
+	const onSubmit = (e) => {
+		e.preventDefault();
+
+		const userInfo = {
+			email,
+			password,
+		};
+		dispatch(login(userInfo));
+		history.push(props.fromState || '/');
+	};
 	return (
 		<div className='login'>
 			<div
@@ -156,9 +171,7 @@ const Login = () => {
 					<div className='login__login-container__main-container__form-container'>
 						<form
 							className='login__login-container__main-container__form-container__form'
-							onSubmit={(e) => {
-								e.preventDefault();
-							}}
+							onSubmit={onSubmit}
 						>
 							<input
 								className='login__login-container__main-container__form-container__form--email'
