@@ -31,14 +31,14 @@ const Header = () => {
 
 	useEffect(() => {
 		setTotalProducts(
-			cartItems.reduce((total, item) => total + Number(item?.quantity), 0),
+			cartItems?.reduce((total, item) => total + Number(item?.quantity), 0),
 		);
 	}, [cartItems]);
 
 	const menuLeft = useRef(null);
 
 	const menuToggle = () => menuLeft.current.classList.toggle('active');
-	const user = true;
+	const user = false;
 	return (
 		<div className='header' ref={headerRef}>
 			<div className='container'>
