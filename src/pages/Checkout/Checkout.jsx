@@ -8,7 +8,7 @@ const Checkout = () => {
 		<Helmet title='Thanh toán'>
 			<div className='checkout grid'>
 				<div className='row wide'>
-					<div className='col l-4 c-12 checkout__column__item'>
+					<div className='col l-4 m-12 c-12 checkout__column__item'>
 						<h1 className='checkout__column__item__heading'>
 							Thông tin hóa đơn
 						</h1>
@@ -19,33 +19,33 @@ const Checkout = () => {
 							</div>
 							<div className='checkout__column__item__form__group'>
 								<div className='row'>
-									<div className='col l-6 checkout__column__item__form__group__item'>
+									<div className='col l-6 m-12 checkout__column__item__form__group__item'>
 										<label htmlFor=''>Email</label>
 										<input type='email' name='' id='' />
 									</div>
-									<div className='col l-6 checkout__column__item__form__group__item'>
+									<div className='col l-6 m-12 checkout__column__item__form__group__item'>
 										<label htmlFor=''>Điện thoại</label>
 										<input type='tel' name='' id='' />
 									</div>
 								</div>
 							</div>
-							<div className='checkout__column__item__form__group'>
+							<div className='l-6 m-12 c-12 checkout__column__item__form__group'>
 								<label htmlFor=''>Địa Chỉ</label>
 								<input type='text' name='' id='' />
 							</div>
 							<div className='checkout__column__item__form__group'>
 								<div className='row'>
-									<div className='col l-6 checkout__column__item__form__group__item'>
+									<div className='col l-6 m-12 c-12 checkout__column__item__form__group__item'>
 										<label htmlFor=''>Tỉnh/ Thành phố </label>
 										<input type='text' name='' id='' />
 									</div>
-									<div className='col l-6 checkout__column__item__form__group__item'>
+									<div className='col l-6 m-12 c-12  checkout__column__item__form__group__item'>
 										<label htmlFor=''>Quận/ Huyện</label>
 										<input type='text' name='' id='' />
 									</div>
 								</div>
 							</div>
-							<div className='checkout__column__item__form__group'>
+							<div className='l-6 m-12 c-12 checkout__column__item__form__group'>
 								<label htmlFor=''>Phường/ Xã</label>
 								<input type='text' name='' id='' />
 							</div>
@@ -130,10 +130,10 @@ const Checkout = () => {
 								</div>
 								<div className='payment__item'>
 									<div className='col l-6 c-6 payment__item__title'>
-										<h4>Phí vận chuyển</h4>
+										<h4>Phí vận chuyển(Toàn quốc)</h4>
 									</div>
 									<div className='col l-6 c-6 payment__item__price'>
-										<h4>36.000 VND</h4>
+										<h4>25.000 VND</h4>
 									</div>
 								</div>
 								<div className='payment__item'>
@@ -141,7 +141,7 @@ const Checkout = () => {
 										<h4>Tổng cộng</h4>
 									</div>
 									<div className='col l-6 c-6 payment__item__price'>
-										<h4>365.000 VND</h4>
+										<h4>390.000 VND</h4>
 									</div>
 								</div>
 							</div>
@@ -150,7 +150,7 @@ const Checkout = () => {
 									Tiếp tục mua hàng
 								</Button>
 								<Button className='button__group__item' size='block'>
-									Tiến hành thanh toán
+									Thanh toán
 								</Button>
 							</div>
 						</div>

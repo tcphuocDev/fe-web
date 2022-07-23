@@ -12,8 +12,9 @@ import Login from 'pages/Login';
 import About from 'pages/HomePage/About';
 import Checkout from 'pages/Checkout/Checkout';
 import UserProfile from 'pages/UserProfile';
-import UserInfoDetail from 'pages/profile-page/UserInfoDetail';
-import AddressUser from 'pages/profile-page/Address';
+import EditProfileUser from 'pages/profile-page/EditProfileUser';
+import OrderPageUser from 'pages/profile-page/Order';
+import ChangePassword from 'pages/profile-page/ChangePassword';
 
 const Routes = () => {
 	return (
@@ -21,7 +22,9 @@ const Routes = () => {
 			<Route path='/' exact component={Home} />
 			<Route path='/login' exact component={Login} />
 			<Route path='/profile' exact component={UserProfile} />
-			<Route path='/profile/profile-address' exact component={AddressUser} />
+			<Route path='/profile/edit' component={EditProfileUser} />
+			<Route path='/profile/my-order' component={OrderPageUser} />
+			<Route path='/profile/edit-password' component={ChangePassword} />
 			<Route path='/catalog/:slug' component={Product} />
 			<Route path='/catalog' component={Catalog} />
 			<Route path='/cart' component={Cart} />

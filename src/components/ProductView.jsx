@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
@@ -6,6 +5,7 @@ import { withRouter } from 'react-router';
 import Button from './Button';
 import numberWithCommas from 'utils/numberWithCommas';
 import { addItem } from 'redux/shopping-cart/cartItemsSlide';
+import { toast } from 'react-toastify';
 
 const ProductView = (props) => {
 	let product = props.product;
@@ -44,11 +44,15 @@ const ProductView = (props) => {
 
 	const check = () => {
 		if (color === undefined) {
-			alert('Vui lòng chọn màu sắc!');
+			toast.warning('Vui lòng chọn màu sắc !', {
+				position: toast.POSITION.TOP_RIGHT,
+			});
 			return false;
 		}
 		if (size === undefined) {
-			alert('Vui lòng chọn kích cỡ!');
+			toast.warning('Vui lòng chọn kích cỡ !', {
+				position: toast.POSITION.TOP_RIGHT,
+			});
 			return false;
 		}
 
@@ -66,6 +70,9 @@ const ProductView = (props) => {
 					price: product.price,
 				}),
 			);
+			toast.success('Thêm sản phẩm giỏ hàng thành công !', {
+				position: toast.POSITION.TOP_RIGHT,
+			});
 		}
 	};
 

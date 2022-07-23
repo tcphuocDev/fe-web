@@ -1,36 +1,12 @@
 .contact{
   &__content{
-    @include flex(center, space-between);
-
     &__title{
       margin-bottom: 20px;
-    }
-
-    &__item:nth-child(2){
-      margin-left: 10px;
-    }
-    &__item:nth-child(3){
-      margin-left: 10px;
-    }
-    @include mobile{
-      flex-direction: column;
-      width: 100%
-    }
-    
+    }    
     &__item{
       @include flex(center,flex-start);
       padding: 10px 10px 10px 2px;
       background-color: #f7f7f7;
-
-    
-      
-      
-      &__item:nth-child(2){
-        margin-left: 10px;
-      }
-      &__item:nth-child(3){
-        margin-left: 10px;
-      }
       i{
         font-size: 16px;
         color: white;
@@ -52,37 +28,26 @@
       }
     }
     &__form{
-
-      @include flex(flex-start,space-between);
       margin-top: 20px;
-
-
-      @include mobile{
-        display: flex;
-        flex-direction: column;
-      }
       &__left{
-        &__video{
-          
-          @include mobile {
-            display: none;
-          }
-        }
+        @include flex(center,flex-start);
+       img{
+        width: 100%;
+       }
+
+       @include mobile{
+        display: none;
+      }
+      @include tablet{
+        display: none;
+      }
       }
       &__right{
-       
+        @include tablet{
+          flex: 1;  
+        }
         &__group{
-          @include flex(flex-start,space-between);
-
-          @include mobile{
-            display: flex;
-            flex-direction: column;
-          }
-
-          @include mobile{
-            display: flex;
-            flex-direction: column;
-          }
+         
           &__item{
             padding: 10px 10px 10px 2px;
             background-color: #f7f7f7;
@@ -90,8 +55,6 @@
             @include mobile{
               width: 100%;
             }
-            
-
             label{
               font-size: 14px;
               font-weight: bold;

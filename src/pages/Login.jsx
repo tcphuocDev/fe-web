@@ -4,7 +4,7 @@ import logo from '../assets/images/Logo.png';
 import facebook from '../assets/images/facebook.svg';
 import google from '../assets/images/google.svg';
 import linkedin from '../assets/images/linkedin.svg';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from 'redux/auth/authSlice';
 import { useHistory } from 'react-router-dom';
 const Login = (props) => {
@@ -14,6 +14,9 @@ const Login = (props) => {
 	const [email, setEmail] = useState('');
 	const dispatch = useDispatch();
 	const history = useHistory();
+
+	const isLoggedIn = useSelector((state) => state.auth);
+
 	const onSubmit = (e) => {
 		e.preventDefault();
 
@@ -24,6 +27,7 @@ const Login = (props) => {
 		dispatch(login(userInfo));
 		history.push(props.fromState || '/');
 	};
+	console.log(isLoggedIn);
 	return (
 		<div className='login'>
 			<div
@@ -44,17 +48,17 @@ const Login = (props) => {
 					<img
 						className='login__welcome-back__logo-container--image'
 						src={logo}
-						alt='Budwriter'
+						alt='Npc'
 					/>
-					Budwriter
+					Fashion Shop
 				</div>
 				<div className='login__welcome-back__main-container'>
 					<div className='login__welcome-back__main-container__text-container'>
 						<span className='login__welcome-back__main-container__text-container--title'>
-							Welcome Back!
+							Chào mừng bạn trở lại!
 						</span>
 						<span className='login__welcome-back__main-container__text-container--secondary'>
-							To keep sharing your work with us, please log in.
+							Để tiếp tục tải nghiệm vui lòng bạn đăng nhập tài khoản
 						</span>
 					</div>
 					<div
@@ -63,7 +67,7 @@ const Login = (props) => {
 						}}
 						className='login__welcome-back__main-container__button-container'
 					>
-						Sign In
+						Đăng nhập
 					</div>
 				</div>
 			</div>
@@ -74,7 +78,7 @@ const Login = (props) => {
 						: 'login__create-container--inactive'
 				}`}
 			>
-				Create Account
+				Đăng kí tài khoản
 				<div className='login__create-container__social-container'>
 					<img
 						className='login__create-container__social-container--facebook-icon'
@@ -93,7 +97,7 @@ const Login = (props) => {
 					/>
 				</div>
 				<span className='login__create-container--info-text'>
-					or use email for your registration
+					hoặc sử dụng tài khoản khác để đăng kí tài khoản
 				</span>
 				<div className='login__create-container__form-container'>
 					<form
@@ -127,7 +131,7 @@ const Login = (props) => {
 							required
 						/>
 						<button className='login__create-container__form-container__form--submit'>
-							Sign Up
+							Đăng kí
 						</button>
 					</form>
 				</div>
@@ -143,9 +147,9 @@ const Login = (props) => {
 					<img
 						className='login__login-container__logo-container--image'
 						src={logo}
-						alt='Budwriter'
+						alt='NPC'
 					/>
-					Budwriter
+					Fashion Shop
 				</div>
 				<div className='login__login-container__main-container'>
 					<div className='login__login-container__main-container__social-container'>
@@ -166,7 +170,7 @@ const Login = (props) => {
 						/>
 					</div>
 					<span className='login__login-container__main-container--info-text'>
-						or use email for your login
+						sử dụng email để đăng nhập
 					</span>
 					<div className='login__login-container__main-container__form-container'>
 						<form
@@ -190,7 +194,7 @@ const Login = (props) => {
 								required
 							/>
 							<button className='login__login-container__main-container__form-container__form--submit'>
-								Sign In
+								Đăng nhập
 							</button>
 						</form>
 					</div>
@@ -205,10 +209,11 @@ const Login = (props) => {
 			>
 				<div className='login__welcome-back__main-container__text-container'>
 					<span className='login__welcome-back__main-container__text-container--title'>
-						Hello, stranger!
+						Chào mừng bạn đến với thế giới của YOLO !
 					</span>
 					<span className='login__welcome-back__main-container__text-container--secondary'>
-						Enter your personal details and start your own portfolio!
+						Điền thông tin chi tiết của bạn , và bắt đầu trải nghiệm sản phẩm
+						của chúng tôi!
 					</span>
 				</div>
 				<div
@@ -217,7 +222,7 @@ const Login = (props) => {
 					}}
 					className='login__welcome-back__main-container__button-container'
 				>
-					Sign Up
+					Đăng kí
 				</div>
 			</div>
 		</div>

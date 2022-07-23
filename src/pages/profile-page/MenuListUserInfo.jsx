@@ -13,7 +13,7 @@ const MenuListUserInfo = () => {
 				<li className='user__content__menu__list__item'>
 					<Link
 						className='user__content__menu__list__item__link'
-						to='/profile/profile-address'
+						to='/profile/my-order'
 					>
 						Đơn đặt hàng
 					</Link>
@@ -21,9 +21,17 @@ const MenuListUserInfo = () => {
 				<li className='user__content__menu__list__item'>
 					<Link
 						className='user__content__menu__list__item__link'
+						to='/profile/edit-password'
+					>
+						Đổi mật khẩu
+					</Link>
+				</li>
+				<li className='user__content__menu__list__item'>
+					<Link
+						className='user__content__menu__list__item__link'
 						to='/profile/profile-address'
 					>
-						Địa chỉ
+						Đăng xuất
 					</Link>
 				</li>
 			</ul>
