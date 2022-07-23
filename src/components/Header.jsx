@@ -38,7 +38,7 @@ const Header = () => {
 	const menuLeft = useRef(null);
 
 	const menuToggle = () => menuLeft.current.classList.toggle('active');
-	const user = false;
+	const user = true;
 	return (
 		<div className='header' ref={headerRef}>
 			<div className='container'>
@@ -71,7 +71,10 @@ const Header = () => {
 					</div>
 					<div className='header__menu__right'>
 						<div className='header__menu__item header__menu__right__item'>
-							<i className='bx bx-search'></i>
+							<div className='header__menu__right__item__search'>
+								<input type='text' placeholder='Tìm kiếm ở đây...' />
+								<i className='bx bx-search'></i>
+							</div>
 						</div>
 						<div className='header__menu__item header__menu__right__item'>
 							<Link to='/cart'>

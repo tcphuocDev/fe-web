@@ -5,6 +5,8 @@ import Header from './Header';
 import Footer from './Footer';
 import Routes from 'routes/Routes';
 import ProductViewModal from './ProductViewModal';
+import { ToastContainer, toast, Zoom, Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Layout = () => {
 	return (
 		<BrowserRouter>
@@ -12,6 +14,12 @@ const Layout = () => {
 				render={(props) => (
 					<div>
 						<div className='container'>
+							<ToastContainer
+								draggable={false}
+								transition={Zoom}
+								autoClose={5000}
+							/>
+
 							<Header {...props} />
 							<div className='main'>
 								<Routes />

@@ -222,6 +222,10 @@ $breakpoint-mobile: 768px;
                     border-radius: 30px;
                     font-size: 18px;
                     cursor: pointer;
+
+                    @include mobile{
+                        font-size: 1.3rem;
+                    }
                 }
             }
         }

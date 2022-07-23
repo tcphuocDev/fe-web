@@ -1,8 +1,6 @@
-import Button from 'components/Button';
+// @ts-nocheck
 import Helmet from 'components/Helmet';
 import React from 'react';
-import { BrowserRouter, Link, Route } from 'react-router-dom';
-import Routes from 'routes/Routes';
 import BannerUserPage from './profile-page/BannerUserPage';
 import MenuListUserInfo from './profile-page/MenuListUserInfo';
 import UserInfoDetail from './profile-page/UserInfoDetail';
