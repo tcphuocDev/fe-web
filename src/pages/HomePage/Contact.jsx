@@ -23,7 +23,7 @@ const Contact = (props) => {
 						</div>
 					</div>
 					<div className='col l-4 m-12 c-12 contact__content__item'>
-						<i class='bx bx-phone'></i>
+						<i className='bx bx-phone'></i>
 						<div className='contact__content__item__info'>
 							<span className='contact__content__item__info__title'>
 								Điện thoại:
@@ -33,7 +33,7 @@ const Contact = (props) => {
 						</div>
 					</div>
 					<div className='col l-4 m-12 c-12 contact__content__item'>
-						<i class='bx bx-question-mark'></i>
+						<i className='bx bx-question-mark'></i>
 						<div className='contact__content__item__info'>
 							<span className='contact__content__item__info__title'>
 								Gửi thắc mắc:

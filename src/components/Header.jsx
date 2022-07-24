@@ -1,18 +1,23 @@
-// @ts-nocheck
 import React, { useRef, useEffect, useState } from 'react';
 import mainNav from 'assets/fake-data/mainNav';
-import { useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, Redirect, useHistory, useLocation } from 'react-router-dom';
 import logo from '../assets/images/Logo-2.png';
+import { isEmpty } from 'lodash';
 
-const Header = () => {
+const Header = (props) => {
 	const { pathname } = useLocation();
-	const cartItems = useSelector((state) => state.cartItems.value);
+	const { change, changeCart, changeInfo, setFilters, filters } = props;
+	// const cartItems = useSelector((state) => state.cartItems.value);
+	const [changeUser, setChangeUser] = useState(false);
+	const [currentUser, setCurrentUser] = useState({});
 	const [totalProducts, setTotalProducts] = useState(0);
 	const activeNav = mainNav.findIndex((e) => e.path === pathname);
-
+	const { user } = useSelector((state) => state.auth);
+	useEffect(() => {
+		setCurrentUser(JSON.parse(localStorage?.getItem('user')));
+	}, [changeUser]);
 	const headerRef = useRef(null);
-
 	useEffect(() => {
 		window.addEventListener('scroll', () => {
 			if (
@@ -29,16 +34,15 @@ const Header = () => {
 		};
 	}, []);
 
-	useEffect(() => {
-		setTotalProducts(
-			cartItems?.reduce((total, item) => total + Number(item?.quantity), 0),
-		);
-	}, [cartItems]);
+	// useEffect(() => {
+	// 	setTotalProducts(
+	// 		cartItems?.reduce((total, item) => total + Number(item?.quantity), 0),
+	// 	);
+	// }, [cartItems]);
 
 	const menuLeft = useRef(null);
 
 	const menuToggle = () => menuLeft.current.classList.toggle('active');
-	const user = true;
 	return (
 		<div className='header' ref={headerRef}>
 			<div className='container'>
@@ -85,8 +89,8 @@ const Header = () => {
 							</div>
 						</div>
 						<div className='header__menu__item header__menu__right__item'>
-							{user ? (
-								<Link to='/profile'>
+							{user.user !== null ? (
+								<Link to={`/profile`}>
 									<i className='bx bx-user'></i>
 								</Link>
 							) : (

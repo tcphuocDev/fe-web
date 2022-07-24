@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import Header from './Header';
@@ -7,29 +6,34 @@ import Routes from 'routes/Routes';
 import ProductViewModal from './ProductViewModal';
 import { ToastContainer, toast, Zoom, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-const Layout = () => {
+import { Provider, useSelector } from 'react-redux';
+import { useStore } from 'redux/storeApp';
+const Layout = (props) => {
+	const store = useStore(props.initialReduxState);
 	return (
 		<BrowserRouter>
-			<Route
-				render={(props) => (
-					<div>
-						<div className='container'>
-							<ToastContainer
-								draggable={false}
-								transition={Zoom}
-								autoClose={5000}
-							/>
+			<Provider store={store}>
+				<Route
+					render={(props) => (
+						<div>
+							<div className='container'>
+								<ToastContainer
+									draggable={false}
+									transition={Zoom}
+									autoClose={3000}
+								/>
 
-							<Header {...props} />
-							<div className='main'>
-								<Routes />
+								<Header {...props} />
+								<div className='main'>
+									<Routes />
+								</div>
 							</div>
+							<Footer />
+							<ProductViewModal />
 						</div>
-						<Footer />
-						<ProductViewModal />
-					</div>
-				)}
-			/>
+					)}
+				/>
+			</Provider>
 		</BrowserRouter>
 	);
 };

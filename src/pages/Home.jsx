@@ -1,5 +1,4 @@
-// @ts-nocheck
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Helmet from 'components/Helmet';
 import HeroSlider from 'components/HeroSlider';
 import Section, { SectionTitle, SectionBody } from '../components/Section';

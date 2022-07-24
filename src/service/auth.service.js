@@ -1,37 +1,9 @@
-import axios from 'axios';
+import { APIEnum } from 'constant/api.endpoint';
+import axios from '../common/axios';
 
-const API_URL = 'http://localhost:8080/api/v1/auth/';
-
-const register = (username, email, password) => {
-	return axios.post(API_URL + 'signup', {
-		username,
-		email,
-		password,
-	});
-};
-
-const login = (email, password) => {
-	return axios
-		.post(API_URL + 'login', {
-			email,
-			password,
-		})
-		.then((response) => {
-			if (response.data.accessToken) {
-				localStorage.setItem('user', JSON.stringify(response.data));
-			}
-
-			return response.data;
-		});
-};
-
-const logout = () => {
-	localStorage.removeItem('user');
-};
-
-const authService = {
-	register,
-	login,
-	logout,
-};
-export default authService;
+export const loginService = (data) => axios.post(APIEnum.LOGIN, data);
+export const registerService = (data) => axios.post(APIEnum.REGISTER, data);
+export const getProfileService = () => axios.get(APIEnum.PROFILE);
+export const update = (data) => axios.put('/auth/update', data);
+export const getTokenService = (data) => axios.post(APIEnum.GET_TOKEN, data);
+export const updateUserService = (data) => axios.put(APIEnum.UPDATE_USER, data);

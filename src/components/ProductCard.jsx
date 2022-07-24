@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { set } from 'redux/product-modal/productModalSlice';
 import Button from './Button';
 import numberWithCommas from 'utils/numberWithCommas';
+import { showModal } from 'redux/actions/modal.actions';
 const ProductCard = (props) => {
 	const dispatch = useDispatch();
 	return (
@@ -28,7 +29,7 @@ const ProductCard = (props) => {
 					size='sm'
 					icon='bx bx-card'
 					animate={true}
-					onClick={() => dispatch(set(props.slug))}
+					onClick={() => dispatch(showModal(props.slug))}
 				>
 					Chọn mua
 				</Button>

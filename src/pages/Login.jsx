@@ -1,33 +1,61 @@
-// @ts-nocheck
 import React, { useState } from 'react';
 import logo from '../assets/images/Logo.png';
 import facebook from '../assets/images/facebook.svg';
 import google from '../assets/images/google.svg';
 import linkedin from '../assets/images/linkedin.svg';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from 'redux/auth/authSlice';
-import { useHistory } from 'react-router-dom';
+import { getProfile, login, register } from '../redux/actions/auth.actions';
+import { Redirect } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { notification } from 'antd';
 const Login = (props) => {
-	const [loginForm, setLoginFrom] = useState();
+	const [changeUser, setChangeUser] = useState(false);
+	const [loginForm, setLoginFrom] = useState(false);
 	const [name, setName] = useState('');
 	const [password, setPassword] = useState('');
 	const [email, setEmail] = useState('');
 	const dispatch = useDispatch();
-	const history = useHistory();
-
-	const isLoggedIn = useSelector((state) => state.auth);
-
+	const state = useSelector((state) => state);
 	const onSubmit = (e) => {
 		e.preventDefault();
-
 		const userInfo = {
-			email,
-			password,
+			email: email,
+			password: password,
 		};
-		dispatch(login(userInfo));
-		history.push(props.fromState || '/');
+		dispatch(
+			login(userInfo, () => {
+				toast.success('Đăng nhập thành công');
+				dispatch(
+					getProfile(() => {
+						setChangeUser(!changeUser);
+					}),
+				);
+			}),
+		);
 	};
-	console.log(isLoggedIn);
+	const handleRegister = (e) => {
+		e.preventDefault();
+		const params = {
+			fullname: name,
+			email: email,
+			password: password,
+		};
+		dispatch(
+			register(params, () => {
+				notification.success({
+					message: 'Đăng ký thành công!',
+					description: 'Vui lòng bấm vào nút đăng nhập!',
+					duration: 2000,
+				});
+			}),
+		);
+		setName('');
+		setPassword('');
+		setEmail('');
+	};
+	if (state.auth.isLoggedIn) {
+		return <Redirect to='/' />;
+	}
 	return (
 		<div className='login'>
 			<div
@@ -102,14 +130,12 @@ const Login = (props) => {
 				<div className='login__create-container__form-container'>
 					<form
 						className='login__create-container__form-container__form'
-						onSubmit={(e) => {
-							e.preventDefault();
-						}}
+						onSubmit={handleRegister}
 					>
 						<input
 							className='login__create-container__form-container__form--name'
 							type='text'
-							placeholder='Name'
+							placeholder='Họ và tên'
 							value={name}
 							onChange={(e) => setName(e.target.value)}
 							required
