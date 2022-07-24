@@ -20,7 +20,7 @@ $breakpoint-mobile: 768px;
         transition: visibility .3s ease-in-out;
         position: absolute;
         transition: all .8s ease-in-out;
-        width: 30%;
+        width: 28%;
         font-family: 'Quicksand-Bold';
 
         &--active {
@@ -383,7 +383,7 @@ $breakpoint-mobile: 768px;
 
     &__hello-container {
         width: 30%;
-        left: 70.5%;
+        left: 69.5%;
         position: absolute;
         z-index: 2;
         transition: all .8s ease-in-out;
@@ -407,7 +407,7 @@ $breakpoint-mobile: 768px;
 
     &__colored-container {
         transition: transform 1s ease;
-        width: 30%;
+        width: 28%;
         background-color: $main-color;
         position: absolute;
         height: 100vh;

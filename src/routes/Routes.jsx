@@ -21,10 +21,10 @@ const Routes = () => {
 		<Switch>
 			<Route path='/' exact component={Home} />
 			<Route path='/login' exact component={Login} />
-			<Route path='/profile' exact component={UserProfile} />
-			<Route path='/profile/edit' component={EditProfileUser} />
-			<Route path='/profile/my-order' component={OrderPageUser} />
-			<Route path='/profile/edit-password' component={ChangePassword} />
+			<Route path='/profile' component={UserProfile} />
+			<Route path='/edit/profile' component={EditProfileUser} />
+			<Route path='/my-order/profile' component={OrderPageUser} />
+			<Route path='/edit-password/profile' component={ChangePassword} />
 			<Route path='/catalog/:slug' component={Product} />
 			<Route path='/catalog' component={Catalog} />
 			<Route path='/cart' component={Cart} />

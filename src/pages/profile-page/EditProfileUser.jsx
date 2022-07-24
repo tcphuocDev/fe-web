@@ -1,17 +1,34 @@
 // @ts-nocheck
 import Button from 'components/Button';
 import Helmet from 'components/Helmet';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import BannerUserPage from './BannerUserPage';
 import MenuListUserInfo from './MenuListUserInfo';
-import UserInfoDetail from './UserInfoDetail';
+import { useDispatch } from 'react-redux';
+import { getProfile, updateUser } from 'redux/actions/auth.actions';
 import { toast } from 'react-toastify';
 
 const EditProfileUser = () => {
-	const handleClick = () => {
-		toast.success('Chỉnh sửa thông tin thành công !', {
-			position: toast.POSITION.TOP_RIGHT,
-		});
+	const [user, setUser] = useState({});
+	const [changeInfo, setChangeInfo] = useState(false);
+	const [fullname, setFullName] = useState('');
+	const [gender, setGender] = useState('');
+	const [phone, setPhone] = useState('');
+	const [isPhone, setIsPhone] = useState(false);
+	const [email, setEmail] = useState('');
+	const dispatch = useDispatch();
+	useEffect(() => {
+		setUser(JSON.parse(localStorage.getItem('user')));
+	}, [changeInfo]);
+	const handleSubmit = () => {
+		let check = false;
+		if (
+			phone.length === 0 ||
+			!new RegExp('(0[3|5|7|8|9])+([0-9]{8})', 'g').test(phone)
+		) {
+			check = true;
+			setIsPhone(true);
+		}
 	};
 	return (
 		<Helmet title='Sửa thông tin'>
@@ -21,8 +38,75 @@ const EditProfileUser = () => {
 					<div className='row'>
 						<MenuListUserInfo />
 						<div className='col l-8 m-8 c-12 user__content__info'>
-							<UserInfoDetail />
-							<Button size='sm' onClick={handleClick}>
+							<div className='user__content__info__form'>
+								<div className='user__content__info__form__group'>
+									<label htmlFor=''>Họ và tên</label>
+									<input
+										type='text'
+										placeholder=''
+										defaultValue={user && user.fullname}
+										onChange={(e) => setFullName(e.target.value)}
+									/>
+								</div>
+								<div className='user__content__info__form__group'>
+									<label htmlFor=''>Số điện thoại</label>
+									<input
+										type='tel'
+										placeholder=''
+										defaultValue={user && user.phone}
+										onChange={(e) => setPhone(e.target.value)}
+									/>
+								</div>
+								<div className='user__content__info__form__group'>
+									<label htmlFor=''>Email</label>
+									<input
+										type='email'
+										placeholder=''
+										defaultValue={user && user.email}
+										onChange={(e) => setEmail(e.target.value)}
+									/>
+								</div>
+								<div className='user__content__info__form__group'>
+									<label htmlFor=''>Giới tính</label>
+									<select
+										name='select'
+										id=''
+										value={user && user.gender}
+										onChange={(e) => {
+											setGender(e.target.value);
+										}}
+									>
+										<option value='' disabled selected>
+											Giới tính
+										</option>
+										<option value={0}>Nam</option>
+										<option value={1}>Nữ</option>
+									</select>
+								</div>
+								{/* <div className='user__content__info__form__group'>
+									<label htmlFor=''>Thành phố</label>
+									<input type='text' placeholder='' />
+								</div>
+								<div className='user__content__info__form__group'>
+									<label htmlFor=''>Quận Huyện</label>
+									<input type='text' placeholder='' />
+								</div> */}
+								<div className='user__content__info__form__group'>
+									<label htmlFor=''>Địa chỉ</label>
+									<input type='text' placeholder='' />
+								</div>
+							</div>
+							<Button
+								size='sm'
+								onClick={() => {
+									dispatch(
+										updateUser({ fullname, gender: +gender }, () => {
+											dispatch(getProfile(() => setChangeInfo(!changeInfo)));
+											toast.success('Cập nhật thông tin người dùng thành công');
+										}),
+									);
+								}}
+							>
 								Lưu
 							</Button>
 						</div>
