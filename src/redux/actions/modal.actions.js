@@ -6,9 +6,8 @@ export const showModal = (payload) => {
 		payload: payload,
 	};
 };
-export const closeModal = (payload) => {
+export const closeModal = () => {
 	return {
-		payload: payload,
 		type: types.CLOSE,
 	};
 };

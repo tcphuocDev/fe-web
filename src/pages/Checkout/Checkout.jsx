@@ -1,9 +1,29 @@
 // @ts-nocheck
 import Button from 'components/Button';
 import Helmet from 'components/Helmet';
+import { ROOT_URL } from 'constant/config';
 import React, { useEffect, useState } from 'react';
-import imagePrudct from '../../assets/images/products/product-01 (1).jpg';
+import numberWithCommas from 'utils/numberWithCommas';
 const Checkout = () => {
+	const [products, setProducts] = useState([]);
+	const [user, setUser] = useState(null);
+	const [totalPrice, setTotalPrice] = useState(0);
+	useEffect(() => {
+		setProducts(JSON.parse(localStorage.getItem('CART')));
+	}, []);
+
+	useEffect(() => {
+		setTotalPrice(
+			products?.reduce(
+				(total, item) => total + Number(item?.quantity) * Number(item?.price),
+				0,
+			),
+		);
+	}, [products]);
+
+	useEffect(() => {
+		setUser(JSON.parse(localStorage?.getItem('user')));
+	}, []);
 	return (
 		<Helmet title='Thanh toán'>
 			<div className='checkout grid'>
@@ -83,49 +103,33 @@ const Checkout = () => {
 									<div className='col l-3 c-3 table__header__item'>Giá</div>
 								</div>
 							</div>
-							<div className='table__item'>
-								<div className='col l-3 c-3 table__item__image'>
-									<img src={imagePrudct} alt='' />
-								</div>
-								<div className='col l-9 c-9 table__item__info'>
-									<div className='col l-4 c-4 table__item__info__name'>
-										<h4>
-											Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-										</h4>
-									</div>
-									<div className=' col l-2 c-2 table__item__info__quantity'>
-										<h4>4</h4>
-									</div>
-									<div className=' col l-3 c-3 able__item__info__price'>
-										<h4>265.000</h4>
-									</div>
-								</div>
-							</div>
-							<div className='table__item'>
-								<div className='col l-3 c-3 table__item__image'>
-									<img src={imagePrudct} alt='' />
-								</div>
-								<div className='col l-9 c-9 table__item__info'>
-									<div className='col l-4 c-4 table__item__info__name'>
-										<h4>
-											Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-										</h4>
-									</div>
-									<div className=' col l-2 c-2 table__item__info__quantity'>
-										<h4>4</h4>
-									</div>
-									<div className=' col l-3 c-3 able__item__info__price'>
-										<h4>265.000</h4>
-									</div>
-								</div>
-							</div>
+							{products
+								? products.map((item, index) => (
+										<div className='table__item' key={index}>
+											<div className='col l-3 c-3 table__item__image'>
+												<img src={`${ROOT_URL}/${item?.images?.url}`} alt='' />
+											</div>
+											<div className='col l-9 c-9 table__item__info'>
+												<div className='col l-4 c-4 table__item__info__name'>
+													<h4>{item.name}</h4>
+												</div>
+												<div className=' col l-2 c-2 table__item__info__quantity'>
+													<h4>{numberWithCommas(item.quantity)}</h4>
+												</div>
+												<div className=' col l-3 c-3 able__item__info__price'>
+													<h4>{numberWithCommas(item.price)} VNĐ</h4>
+												</div>
+											</div>
+										</div>
+								  ))
+								: ''}
 							<div className='payment'>
 								<div className='payment__item'>
 									<div className='col l-6 c-6 payment__item__title'>
 										<h4>Tạm tính</h4>
 									</div>
 									<div className='col l-6 c-6 payment__item__price'>
-										<h4>365.000 VND</h4>
+										<h4>{numberWithCommas(totalPrice)} VND</h4>
 									</div>
 								</div>
 								<div className='payment__item'>
@@ -141,7 +145,7 @@ const Checkout = () => {
 										<h4>Tổng cộng</h4>
 									</div>
 									<div className='col l-6 c-6 payment__item__price'>
-										<h4>390.000 VND</h4>
+										<h4>{numberWithCommas(totalPrice + Number(25000))} VND</h4>
 									</div>
 								</div>
 							</div>

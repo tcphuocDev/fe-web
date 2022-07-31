@@ -1,26 +1,36 @@
-// @ts-nocheck
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { set } from 'redux/product-modal/productModalSlice';
 import Button from './Button';
-import numberWithCommas from 'utils/numberWithCommas';
+// import numberWithCommas from 'utils/numberWithCommas';
 import { showModal } from 'redux/actions/modal.actions';
+import { ROOT_URL } from 'constant/config';
 const ProductCard = (props) => {
+	const { product } = props;
 	const dispatch = useDispatch();
 	return (
 		<div className='product-card'>
-			<Link to={`/catalog/${props.slug}`}>
+			<Link to={`/catalog/${product.id}`}>
 				<div className='product-card__image'>
-					<img src={props.img01} alt='' />
-					<img src={props.img02} alt='' />
+					<img
+						src={`${ROOT_URL}/${product?.productImages[0]?.url}`}
+						alt={props.name}
+						width='100%'
+						className='product_img'
+					/>
+					<img
+						src={`${ROOT_URL}/${product?.productImages[1]?.url}`}
+						alt={props.name}
+						width='100%'
+						className='product_img'
+					/>
 				</div>
-				<h3 className='product-card__name'>{props.name}</h3>
+				<h3 className='product-card__name'>{product.name}</h3>
 				<div className='product-card__price'>
-					{numberWithCommas(props.price)}
+					{product.price}
 					<span className='product-card__price__old'>
-						<del>{numberWithCommas(99999)}</del>
+						<del>{product.salePrice}</del>
 					</span>
 				</div>
 			</Link>
@@ -29,21 +39,13 @@ const ProductCard = (props) => {
 					size='sm'
 					icon='bx bx-card'
 					animate={true}
-					onClick={() => dispatch(showModal(props.slug))}
+					onClick={() => dispatch(showModal(product.id))}
 				>
 					Chọn mua
 				</Button>
 			</div>
 		</div>
 	);
-};
-
-ProductCard.propTypes = {
-	img01: PropTypes.string.isRequired,
-	img02: PropTypes.string.isRequired,
-	name: PropTypes.string.isRequired,
-	price: PropTypes.number.isRequired,
-	slug: PropTypes.string.isRequired,
 };
 
 export default ProductCard;
