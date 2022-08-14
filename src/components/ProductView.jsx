@@ -1,13 +1,14 @@
+// @ts-nocheck
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { withRouter } from 'react-router';
 import Button from './Button';
-// import numberWithCommas from 'utils/numberWithCommas';
-import { addItem } from 'redux/shopping-cart/cartItemsSlide';
 import { toast } from 'react-toastify';
 import { ROOT_URL } from 'constant/config';
 import { addToCart } from 'redux/actions/cart.action';
+import { isEmpty, map, uniq } from 'lodash';
+import { addToLocal } from 'common/local-storage';
+import { formatMoney } from 'common/common';
 
 const ProductView = (props) => {
 	const { product } = props;
@@ -20,8 +21,7 @@ const ProductView = (props) => {
 	const [color, setColor] = useState(undefined);
 	const [size, setSize] = useState(undefined);
 	const [quantity, setQuantity] = useState(1);
-	// const actualQuantity = product.productVersions.map((item) => item.quantity);
-	// console.log(actualQuantity);
+	const [selectedItem, setSelectedItem] = useState();
 	const check = () => {
 		if (color === undefined) {
 			toast.warning('Vui lòng chọn màu sắc !', {
@@ -35,11 +35,11 @@ const ProductView = (props) => {
 			});
 			return false;
 		}
-
 		return true;
 	};
 	const handleAddToCart = () => {
 		const params = {
+			slug: product.slug,
 			images: product?.productImages[0],
 			id: product?.id,
 			price: product?.price,
@@ -47,6 +47,7 @@ const ProductView = (props) => {
 			color: color,
 			size: size,
 			quantity: quantity,
+			versions: uniq(map(product?.productVersions, 'id')),
 			name: product?.name,
 		};
 		if (check()) {
@@ -56,6 +57,20 @@ const ProductView = (props) => {
 					setChange(!change);
 				}),
 			);
+			toast.success('Thêm sản phẩm giỏ hàng thành công !', {
+				position: toast.POSITION.TOP_RIGHT,
+			});
+		}
+	};
+
+
+
+	const handleBuy = () => {
+		if (!isEmpty(selectedItem)) {
+			addToLocal('cart', selectedItem);
+			toast.success('Thêm vào giỏ hàng thành công');
+		} else {
+			check();
 		}
 	};
 	const updateQuantity = (type) => {
@@ -66,20 +81,15 @@ const ProductView = (props) => {
 		}
 	};
 
-	// const goToCart = () => {
-	// 	if (check()) {
-	// 		dispatch(
-	// 			addItem({
-	// 				slug: product.slug,
-	// 				color: color,
-	// 				size: size,
-	// 				quantity: quantity,
-	// 				price: product.price,
-	// 			}),
-	// 		);
-	// 	}
-	// 	props.history.push('/cart');
-	// };
+	const goToCart = () => {
+		if (!isEmpty(selectedItem)) {
+			addToLocal('cart', selectedItem);
+			toast.success('Thêm vào giỏ hàng thành công');
+			props.history.push('/cart');
+		} else {
+			check();
+		}
+	};
 	return (
 		<div className='product'>
 			<div className='product__images'>
@@ -100,7 +110,23 @@ const ProductView = (props) => {
 					>
 						<img src={`${ROOT_URL}/${product?.productImages[1]?.url}`} alt='' />
 					</div>
+					<div
+						className='product__images__list__item'
+						onClick={() =>
+							setPreViewImg(`${ROOT_URL}/${product?.productImages[1]?.url}`)
+						}
+					>
+						<img src={`${ROOT_URL}/${product?.productImages[1]?.url}`} alt='' />
+					</div>
+					<div
+						className='product__images__list__item'
+						onClick={() =>
+							setPreViewImg(`${ROOT_URL}/${product?.productImages[1]?.url}`)
+						}
+					>
+						<img src={`${ROOT_URL}/${product?.productImages[1]?.url}`} alt='' />
 				</div>
+
 				<div className='product__images__main'>
 					<img src={previewImg} alt='' />
 				</div>
@@ -110,7 +136,7 @@ const ProductView = (props) => {
 					<div className='product-description__title'>Chi tiết sản phẩm</div>
 					<div
 						className='product-description__content'
-						dangerouslySetInnerHTML={{ __html: product?.description }}
+						dangerouslySetInnerHTML={{ __html: product.description }}
 					></div>
 					<div className='product-description__toggle'>
 						<Button
@@ -123,20 +149,37 @@ const ProductView = (props) => {
 				</div>
 			</div>
 			<div className='product__info'>
-				<h1 className='product__info__title'>{product.name}</h1>
+				<h1 className='product__info__title'>{product?.name}</h1>
 				<div className='product__info__item'>
-					<span className='product__info__item__price'>{product.price}</span>
+					{product?.salePrice && product?.price ? (
+						<>
+							<span className='product__info__item__price'>
+								{product ? formatMoney(product?.salePrice) : ''}
+							</span>
+							<span className='product__info__item__price__old'>
+								<del>{product ? formatMoney(product?.price) : ''}</del>
+							</span>
+						</>
+					) : (
+						<span className='product__info__item__price'>
+							{product ? formatMoney(product?.price) : ''}
+						</span>
+					)}
 					<div className='product__info__item'>
-						<div className='product__info__item__title'>Màu sắc</div>
+						<div className='product__info__item__title'>
+							Màu sắc : {selectedItem?.version.color.name}
+						</div>
 						<div className='product__info__item__list'>
 							{product?.productVersions?.map((item, index) => {
 								return (
 									<div
 										key={index}
 										className={`product__info__item__list__item ${
-											color !== item.color.name ? '' : 'active'
+											color !== item.color.code ? '' : 'active'
 										}`}
-										onClick={() => setColor(item.color.name)}
+										onClick={() =>
+											setSelectedItem({ version: item, product: product })
+										}
 									>
 										<div className={`circle bg-${item.color.code}`}></div>
 									</div>
@@ -145,21 +188,27 @@ const ProductView = (props) => {
 						</div>
 					</div>
 					<div className='product__info__item'>
-						<div className='product__info__item__title'>Kích cỡ</div>
+						<div className='product__info__item__title'>
+							Kích cỡ: {selectedItem?.version.size.name}
+						</div>
 						<div className='product__info__item__list'>
-							{product?.productVersions?.map((item, index) => (
-								<div
-									key={index}
-									className={`product__info__item__list__item ${
-										size === item.size.name ? 'active' : ''
-									}`}
-									onClick={() => setSize(item.size.name)}
-								>
-									<div className='product__info__item__list__item__size'>
-										{item.size.name}
+							{product?.productVersions?.map((item, index) => {
+								return (
+									<div
+										key={index}
+										className={`product__info__item__list__item ${
+											size === item.size.name ? 'active' : ''
+										}`}
+										onClick={() =>
+											setSelectedItem({ version: item, product: product })
+										}
+									>
+										<div className='product__info__item__list__item__size'>
+											{item.size.name}
+										</div>
 									</div>
-								</div>
-							))}
+								);
+							})}
 						</div>
 					</div>
 					<div className='product__info__item'>
@@ -183,10 +232,16 @@ const ProductView = (props) => {
 						</div>
 					</div>
 					<div className='product__info__item'>
-						<Button size='sm' onClick={handleAddToCart}>
+						<div className='product__info__item__title'>
+							Kho:
+							{selectedItem ? selectedItem?.version.quantity : '0'}
+						</div>
+					</div>
+					<div className='product__info__item'>
+						<Button size='sm' onClick={handleBuy}>
 							thêm vào giỏ
 						</Button>
-						<Button size='sm' onClick={() => console.log('aaaaaaaaaaa')}>
+						<Button size='sm' onClick={goToCart}>
 							mua ngay
 						</Button>
 					</div>
@@ -212,7 +267,10 @@ const ProductView = (props) => {
 				</div>
 			</div>
 		</div>
+	</div>
 	);
 };
+
+
 
 export default withRouter(ProductView);

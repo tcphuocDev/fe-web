@@ -24,6 +24,7 @@
 
       &__item {
         cursor: pointer;
+        margin-bottom: 8px;
       }
     }
 
@@ -67,6 +68,15 @@
         color: $main-color;
         font-size: 2rem;
         font-weight: 600;
+
+
+        &__old{
+          display: inline-block;
+          padding: 0 10px;
+          font-size: 1.4rem;
+          font-weight: 600;
+          color: $main-color;
+        }
       }
 
       &__title{
@@ -130,15 +140,22 @@
           border:2px solid $txt-second-color;
           font-size: 1.5rem;
           cursor: pointer;
+          &:hover{
+            background-color: $main-color;
+            color: #fff;
+            transition: all .3s ease-in-out;
+          }
         }
 
         &__input{
           @include flex(center, center);
           height: 30px;
-          width: 90px;
-          font-size: 1.5rem;
+          width: 80px;
+          font-size: 1.4rem;
           border-top: 2px solid $txt-second-color;
           border-bottom: 2px solid $txt-second-color;
+          text-align: center;
+          outline: none;
         }
       }
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 
 const Button = (props) => {
 	const bg = props.backgroundColor ? 'bg-' + props.backgroundColor : 'bg-main';
@@ -11,6 +12,7 @@ const Button = (props) => {
 		<button
 			className={`btn  ${bg} ${size} ${animate}`}
 			onClick={props.onClick ? () => props.onClick() : null}
+			disabled={props.disable}
 		>
 			<span className='btn__txt'>{props.children}</span>
 			{props.icon ? (
@@ -28,6 +30,7 @@ Button.propTypes = {
 	icon: PropTypes.string,
 	animate: PropTypes.bool,
 	onclick: PropTypes.func,
+	disable: PropTypes.bool,
 };
 
 export default Button;

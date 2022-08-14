@@ -6,7 +6,7 @@ import productReducer from './product.reducer';
 import colorReducer from './color.reducer';
 import sizeReducer from './size.reducer';
 import cartReducer from './cart.reducer';
-// import orderReducer from "./order.reducer";
+import orderReducer from './order.reducer';
 
 const rootReducer = combineReducers({
 	auth: authReducer,
@@ -15,8 +15,8 @@ const rootReducer = combineReducers({
 	category: categoryReducer,
 	color: colorReducer,
 	size: sizeReducer,
-	cart: cartReducer,
-	// order: orderReducer,
+	// cart: cartReducer,
+	order: orderReducer,
 });
 
 export default rootReducer;

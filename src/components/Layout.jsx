@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
@@ -8,9 +8,25 @@ import { ToastContainer, toast, Zoom, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Provider, useSelector } from 'react-redux';
 import { useStore } from 'redux/storeApp';
+import { getFromLocal } from 'common/local-storage';
 const Layout = (props) => {
 	const store = useStore(props.initialReduxState);
-	console.log('stroe', store);
+	const [totalProduct, setTotalProduct] = useState();
+	const [user, setUser] = useState([]);
+	const [changeUser, setChangeUser] = useState(false);
+	useEffect(() => {
+		setTotalProduct(
+			getFromLocal('cart')?.reduce(
+				(total, item) => total + item.version.currentQuantity,
+				0,
+			),
+		);
+	}, [getFromLocal('cart')]);
+
+	useEffect(() => {
+		setUser(JSON.parse(localStorage.getItem('user')));
+	}, [changeUser]);
+
 	return (
 		<Provider store={store}>
 			<BrowserRouter>
@@ -24,7 +40,12 @@ const Layout = (props) => {
 									autoClose={3000}
 								/>
 
-								<Header {...props} />
+								<Header
+									{...props}
+									user={user}
+									changeUser={changeUser}
+									setChangeUser={setChangeUser}
+								/>
 								<div className='main'>
 									<Routes />
 								</div>

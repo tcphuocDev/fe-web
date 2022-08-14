@@ -11,6 +11,7 @@ const UserInfoDetail = (props) => {
 	useEffect(() => {
 		setUser(JSON.parse(localStorage.getItem('user')));
 	}, [changeInfo]);
+	console.log('user=================', user);
 	return (
 		<>
 			<div className='user__content__info__top'>
@@ -22,19 +23,29 @@ const UserInfoDetail = (props) => {
 			<div className='user__content__info__form'>
 				<div className='user__content__info__form__group'>
 					<label htmlFor=''>Họ và tên</label>
-					<input type='text' placeholder='' defaultValue={user.fullname} />
+					<input
+						type='text'
+						placeholder=''
+						defaultValue={user.fullname}
+						required
+					/>
 				</div>
 				<div className='user__content__info__form__group'>
 					<label htmlFor=''>Số điện thoại</label>
-					<input type='tel' placeholder='' defaultValue={user.phone} />
+					<input type='tel' placeholder='' defaultValue={user.phone} required />
 				</div>
 				<div className='user__content__info__form__group'>
 					<label htmlFor=''>Email</label>
-					<input type='email' placeholder='' defaultValue={user.email} />
+					<input
+						type='email'
+						placeholder=''
+						defaultValue={user.email}
+						required
+					/>
 				</div>
 				<div className='user__content__info__form__group'>
 					<label htmlFor=''>Giới tính</label>
-					<select name='select' id='' defaultValue={user && user.gender}>
+					<select name='select' id='' value={+user.gender} disabled>
 						<option value='' disabled>
 							Giới tính
 						</option>
@@ -43,8 +54,14 @@ const UserInfoDetail = (props) => {
 					</select>
 				</div>
 				<div className='user__content__info__form__group'>
-					<label htmlFor=''>Địa chỉ</label>
-					<input type='text' placeholder='' defaultValue={user.address} />
+					<label htmlFor=''>Địa Chỉ</label>
+					<select name='select' id=''>
+						{user?.addresses?.map((item) => (
+							<>
+								<option value={item.address}>{item.address}</option>
+							</>
+						))}
+					</select>
 				</div>
 			</div>
 		</>

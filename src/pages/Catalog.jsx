@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useCallback, useState, useEffect, useRef } from 'react';
 import Helmet from '../components/Helmet';
 import CheckBox from '../components/CheckBox';
@@ -9,14 +10,24 @@ import { listProduct } from 'redux/actions/product.actions';
 import { listCategory } from 'redux/actions/category.action';
 import { listColor } from 'redux/actions/color.actions';
 import { listSize } from 'redux/actions/size.actions';
+import SearchBar from 'components/SearchBar';
+import SliderProton from 'components/SliderProton';
+import { Pagination } from '@mui/material';
+import EmptyView from 'components/EmptyView';
+import { Paper } from '@material-ui/core';
+import ProductSort from 'components/Product-sort';
 
 const Catalog = () => {
 	const dispatch = useDispatch();
-	const [isLoading, setIsLoading] = useState(false);
+	const [selectedPrice, setSelectedPrice] = useState([100000, 850000]);
 	const productList = useSelector((state) => state.product);
 	const categoryList = useSelector((state) => state.category);
 	const colorList = useSelector((state) => state.color);
 	const sizeList = useSelector((state) => state.size);
+	const [page, setPage] = useState(1);
+	const [resultsFound, setResultsFound] = useState(true);
+	const [searchInput, setSearchInput] = useState('');
+	const [sort, setSort] = useState({ limit: 8 });
 	const [products, setProducts] = useState(productList?.items);
 	const initFilter = {
 		categories: [],
@@ -24,13 +35,12 @@ const Catalog = () => {
 		sizes: [],
 	};
 	const [filter, setFilter] = useState(initFilter);
-	const [filters, setFilters] = useState([]);
 	useEffect(() => {
-		dispatch(listProduct());
+		dispatch(listProduct(sort));
 		dispatch(listCategory());
 		dispatch(listColor());
 		dispatch(listSize());
-	}, [dispatch]);
+	}, [sort, dispatch]);
 	const filterSelect = (type, checked, item) => {
 		if (checked) {
 			switch (type) {
@@ -66,51 +76,85 @@ const Catalog = () => {
 			}
 		}
 	};
-	console.log('filter--------------------------', filter);
 	const clearFilter = () => setFilter(initFilter);
 
+	const handleChangePrice = (e, value) => {
+		setSelectedPrice(value);
+	};
+	const handleSortChange = (newSortValue) => {
+		setSort({
+			...sort,
+			orderPrice: newSortValue,
+		});
+	};
 	const updateProducts = useCallback(() => {
 		let temp = productList?.items;
 		if (filter.categories.length > 0) {
-			let categories = temp.map((e) => e.category.slug);
-			let a = categoryList?.items?.map((i) => i.slug);
-			categories = categories.filter((e) => a.includes(e));
+			temp = temp.filter((e) => filter.categories.includes(e.category?.slug));
 		}
 
 		if (filter.colors.length > 0) {
-			let arrColor = productList?.items?.map((e) =>
-				e.productVersions.map((i) => i.color.code),
-			);
-			const arr = [].concat(...arrColor);
-			console.log('arrr', arr);
-			let a = colorList?.items?.map((i) => i.code);
-			arr?.filter((e) => {
-				const check = a.includes(e);
+			temp = temp.filter((e) => {
+				const check = e?.productVersions?.find((item) =>
+					filter?.colors?.includes(item?.color?.code),
+				);
 				return check !== undefined;
 			});
 		}
 
 		if (filter.sizes.length > 0) {
 			temp = temp.filter((e) => {
-				const check = e.size.find((size) => filter.size.includes(size));
+				const check = e?.productVersions?.find((item) =>
+					filter?.sizes?.includes(item?.size?.name),
+				);
 				return check !== undefined;
 			});
 		}
-	}, [filter, productList?.items]);
 
+		if (searchInput) {
+			temp = temp.filter(
+				(item) =>
+					item.name.toLowerCase().search(searchInput.toLowerCase().trim()) !==
+					-1,
+			);
+		}
+
+		const minPrice = selectedPrice[0];
+		const maxPrice = selectedPrice[1];
+
+		temp = temp.filter(
+			(item) => item.price >= minPrice && item.price <= maxPrice,
+		);
+
+		setProducts(temp);
+		!temp.length ? setResultsFound(false) : setResultsFound(true);
+	}, [filter, productList?.items, selectedPrice, searchInput]);
 	useEffect(() => {
 		updateProducts();
-		setProducts(productList?.items);
-	}, [updateProducts]);
-	console.log('day l;a product', products);
+	}, [updateProducts, productList?.items, selectedPrice, searchInput]);
 	const filterRef = useRef(null);
 
 	const showHideFilter = () => filterRef.current.classList.toggle('active');
 
 	return (
 		<Helmet title='Sản phẩm'>
+			<div className='catalog__top'>
+				<div className='catalog__search'>
+					<SearchBar
+						value={searchInput}
+						changeInput={(e) => setSearchInput(e.target.value)}
+					/>
+				</div>
+			</div>
 			<div className='catalog'>
 				<div className='catalog__filter' ref={filterRef}>
+					{/* <div className='catalog__search'>
+						<SearchBar
+							value={searchInput}
+							changeInput={(e) => setSearchInput(e.target.value)}
+						/>
+					</div> */}
+
 					<div
 						className='catalog__filter__close'
 						onClick={() => showHideFilter()}
@@ -133,7 +177,7 @@ const Catalog = () => {
 												onChange={(input) =>
 													filterSelect('CATEGORY', input.checked, item)
 												}
-												checked={filter.categories.includes(item.slug)}
+												checked={filter.categories.includes(item?.slug)}
 											/>
 										</div>
 								  ))
@@ -192,6 +236,15 @@ const Catalog = () => {
 							</Button>
 						</div>
 					</div>
+					<div className='catalog___filter__price'>
+						<div className='catalog__filter__price__title'>Khoảng giá:</div>
+						<div className='catalog___filter__price__item'>
+							<SliderProton
+								value={selectedPrice}
+								changePrice={handleChangePrice}
+							/>
+						</div>
+					</div>
 				</div>
 				<div className='catalog__filter__toggle'>
 					<Button size='sm' onClick={() => showHideFilter()}>
@@ -199,7 +252,32 @@ const Catalog = () => {
 					</Button>
 				</div>
 				<div className='catalog__content'>
-					<InfinityList data={products} />
+					<div className='catalog__content__sort'>
+						<div className='row'>
+							<h4>Sắp xếp theo</h4>
+							<ProductSort
+								current={sort?.orderPrice}
+								onchange={handleSortChange}
+							/>
+						</div>
+					</div>
+					{resultsFound ? (
+						<>
+							<InfinityList data={products} />
+						</>
+					) : (
+						<EmptyView />
+					)}
+					{/* <Pagination
+						style={{
+							float: 'right',
+							marginBottom: '40px',
+							marginTop: '-40px',
+						}}
+						count={Math.ceil(productList.meta.total / 8)}
+						page={page}
+						// onChange={handleChange}
+					/> */}
 				</div>
 			</div>
 		</Helmet>

@@ -32,22 +32,22 @@ const InfinityList = (props) => {
 		});
 	}, [listRef]);
 
-	useEffect(() => {
-		const getItems = () => {
-			const pages = Math.floor(props.data.length / perLoad);
-			const maxIndex = props.data.length % perLoad === 0 ? pages : pages + 1;
+	// useEffect(() => {
+	// 	const getItems = () => {
+	// 		const pages = Math.floor(props.data.length / perLoad);
+	// 		const maxIndex = props.data.length % perLoad === 0 ? pages : pages + 1;
 
-			if (load && index <= maxIndex) {
-				const start = perLoad * index;
-				const end = start + perLoad;
+	// 		if (load) {
+	// 			const start = perLoad * index;
+	// 			const end = start + perLoad;
 
-				setData(data.concat(props.data.slice(start, end)));
-				setIndex(index + 1);
-			}
-		};
-		getItems();
-		setLoad(false);
-	}, [load, index, data, props.data]);
+	// 			setData(data.concat(props.data.slice(start, end)));
+	// 			setIndex(index + 1);
+	// 		}
+	// 	};
+	// 	getItems();
+	// 	setLoad(false);
+	// }, [load, index, data, props.data]);
 	return (
 		<div ref={listRef}>
 			<Grid col={3} mdCol={2} smCol={1} gap={20}>
