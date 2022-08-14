@@ -14,6 +14,8 @@ const Login = (props) => {
 	const [name, setName] = useState('');
 	const [password, setPassword] = useState('');
 	const [email, setEmail] = useState('');
+	const [phone, setPhone] = useState('');
+	const [gender, setGender] = useState('');
 	const dispatch = useDispatch();
 	const state = useSelector((state) => state);
 	const onSubmit = (e) => {
@@ -39,6 +41,8 @@ const Login = (props) => {
 			fullname: name,
 			email: email,
 			password: password,
+			phone: phone,
+			gender: +gender,
 		};
 		dispatch(
 			register(params, () => {
@@ -53,7 +57,7 @@ const Login = (props) => {
 		setPassword('');
 		setEmail('');
 	};
-	if (state.auth.isLoggedIn) {
+	if (state.auth?.token) {
 		return <Redirect to='/' />;
 	}
 	return (
@@ -125,7 +129,7 @@ const Login = (props) => {
 					/>
 				</div>
 				<span className='login__create-container--info-text'>
-					hoặc sử dụng tài khoản khác để đăng kí tài khoản
+					hoặc sử dụng tài khoản khác
 				</span>
 				<div className='login__create-container__form-container'>
 					<form
@@ -156,6 +160,29 @@ const Login = (props) => {
 							onChange={(e) => setPassword(e.target.value)}
 							required
 						/>
+						<input
+							className='login__create-container__form-container__form--password'
+							type='tel'
+							placeholder='Số điện thoại'
+							value={phone}
+							onChange={(e) => setPhone(e.target.value)}
+							required
+						/>
+						<select
+							className='login__create-container__form-container__form--gender'
+							name='select'
+							id=''
+							value={gender}
+							onChange={(e) => {
+								setGender(e.target.value);
+							}}
+						>
+							<option value='' disabled selected aria-required>
+								Giới tính
+							</option>
+							<option value={0}>Nam</option>
+							<option value={1}>Nữ</option>
+						</select>
 						<button className='login__create-container__form-container__form--submit'>
 							Đăng kí
 						</button>

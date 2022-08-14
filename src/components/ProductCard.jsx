@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Button from './Button';
-// import numberWithCommas from 'utils/numberWithCommas';
+
 import { showModal } from 'redux/actions/modal.actions';
 import { ROOT_URL } from 'constant/config';
+import { formatMoney } from 'common/common';
 const ProductCard = (props) => {
 	const { product } = props;
 	const dispatch = useDispatch();
@@ -28,9 +29,9 @@ const ProductCard = (props) => {
 				</div>
 				<h3 className='product-card__name'>{product.name}</h3>
 				<div className='product-card__price'>
-					{product.price}
+					{formatMoney(product.salePrice)}
 					<span className='product-card__price__old'>
-						<del>{product.salePrice}</del>
+						<del>{formatMoney(product.price)}</del>
 					</span>
 				</div>
 			</Link>

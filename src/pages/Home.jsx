@@ -4,19 +4,21 @@ import HeroSlider from 'components/HeroSlider';
 import Section, { SectionTitle, SectionBody } from '../components/Section';
 import heroSliderData from '../assets/fake-data/hero-slider';
 import policy from 'assets/fake-data/policy';
+import productData from 'assets/fake-data/products';
 import PolicyCard from 'components/PolicyCard';
 import Grid from 'components/Grid';
 import { Link } from 'react-router-dom';
 import ProductCard from 'components/ProductCard';
 import banner from '../assets/images/banner.png';
-import { listProduct } from 'redux/actions/product.actions';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { BASE_URL } from 'constant/config';
+import { listProduct } from 'redux/actions/product.actions';
 
 export default function Home() {
 	const dispatch = useDispatch();
-	const [listPopular, setListPopular] = useState({});
-	const productList = useSelector((state) => state.product);
+	const [listPopular, setListPopular] = useState([]);
+	const [listTagNew, setListTagNew] = useState([]);
+	const [listTagHot, setListTagHot] = useState([]);
 	useEffect(() => {
 		dispatch(listProduct());
 	}, [dispatch]);
@@ -25,6 +27,22 @@ export default function Home() {
 			const res = await fetch(`${BASE_URL}products/list?limit=8&tag=popular`);
 			const data = await res.json();
 			setListPopular(data);
+		};
+		fetchdata();
+	}, [dispatch]);
+	useEffect(() => {
+		const fetchdata = async () => {
+			const res = await fetch(`${BASE_URL}products/list?limit=8&tag=new`);
+			const data = await res.json();
+			setListTagNew(data);
+		};
+		fetchdata();
+	}, [dispatch]);
+	useEffect(() => {
+		const fetchdata = async () => {
+			const res = await fetch(`${BASE_URL}products/list?limit=8&tag=hot`);
+			const data = await res.json();
+			setListTagHot(data);
 		};
 		fetchdata();
 	}, [dispatch]);
@@ -61,7 +79,7 @@ export default function Home() {
 					<SectionTitle>Top sản phẩm bán chạy trong tuần</SectionTitle>
 					<SectionBody>
 						<Grid col={4} mdCol={2} smCol={1} gap={20}>
-							{productList?.items.map((item, index) => (
+							{listTagHot?.data?.items.map((item, index) => (
 								<ProductCard key={index} product={item} />
 							))}
 						</Grid>
@@ -75,7 +93,7 @@ export default function Home() {
 					<SectionTitle>Sản phẩm mới</SectionTitle>
 					<SectionBody>
 						<Grid col={4} mdCol={2} smCol={1} gap={20}>
-							{productList?.items.map((item, index) => (
+							{listTagNew?.data?.items.map((item, index) => (
 								<ProductCard key={index} product={item} />
 							))}
 						</Grid>

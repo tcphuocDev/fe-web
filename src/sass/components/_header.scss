@@ -89,23 +89,26 @@
                   margin-left: 10px;
               }
 
+              &__cart{
+                padding: 0 10px;
+              }
               &__cart__length{
                 position: absolute;
                 background-color: #4267b2;
                 width: 20px;
                 height: 20px;
-                top: -10%;
-                right: -20%;
-                transform: translate(10%,20%);
+                top: 12%;
+                right: 0%;
+                transform: translate(-12%,0%);
                 border:2px solid $main-color;
                 border-radius: 50%;
 
                 @include mobile {
                     width: 13px;
                     height: 13px;
-                    top: -10%;
-                    right: -20%;
-                    transform: translate(10%,20%);
+                    top: 10%;
+                    right: 10%;
+                    transform: translate(-10%,-10%);
                 }
                 span{
                     font-size: 1.1rem;

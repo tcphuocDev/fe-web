@@ -56,7 +56,12 @@
   }
 
   &__list{
-    flex-grow: 1
+    flex-grow: 1;
+
+
+    &__empty{
+      @include flex(center,center);
+    }
   }
 
   &__item{

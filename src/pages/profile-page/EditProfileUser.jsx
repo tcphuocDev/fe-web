@@ -14,22 +14,11 @@ const EditProfileUser = () => {
 	const [fullname, setFullName] = useState('');
 	const [gender, setGender] = useState('');
 	const [phone, setPhone] = useState('');
-	const [isPhone, setIsPhone] = useState(false);
 	const [email, setEmail] = useState('');
 	const dispatch = useDispatch();
 	useEffect(() => {
 		setUser(JSON.parse(localStorage.getItem('user')));
 	}, [changeInfo]);
-	const handleSubmit = () => {
-		let check = false;
-		if (
-			phone.length === 0 ||
-			!new RegExp('(0[3|5|7|8|9])+([0-9]{8})', 'g').test(phone)
-		) {
-			check = true;
-			setIsPhone(true);
-		}
-	};
 	return (
 		<Helmet title='Sửa thông tin'>
 			<div className='user'>
@@ -71,29 +60,25 @@ const EditProfileUser = () => {
 									<select
 										name='select'
 										id=''
-										value={user && user.gender}
+										defaultValue={user && user.gender}
 										onChange={(e) => {
 											setGender(e.target.value);
 										}}
 									>
-										<option value='' disabled selected>
-											Giới tính
-										</option>
+										<option value=''>Giới tính</option>
 										<option value={0}>Nam</option>
 										<option value={1}>Nữ</option>
 									</select>
 								</div>
-								{/* <div className='user__content__info__form__group'>
-									<label htmlFor=''>Thành phố</label>
-									<input type='text' placeholder='' />
-								</div>
 								<div className='user__content__info__form__group'>
-									<label htmlFor=''>Quận Huyện</label>
-									<input type='text' placeholder='' />
-								</div> */}
-								<div className='user__content__info__form__group'>
-									<label htmlFor=''>Địa chỉ</label>
-									<input type='text' placeholder='' />
+									<label htmlFor=''>Địa Chỉ</label>
+									<select name='select' id=''>
+										{user?.addresses?.map((item) => (
+											<>
+												<option value={item.address}>{item.address}</option>
+											</>
+										))}
+									</select>
 								</div>
 							</div>
 							<Button
