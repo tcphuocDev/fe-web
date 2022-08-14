@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -6,32 +5,27 @@ import productData from 'assets/fake-data/products';
 
 import Helmet from 'components/Helmet';
 import Button from 'components/Button';
-import numberWithCommas from 'utils/numberWithCommas';
 import CartItem from 'components/CartItem';
-import { useLocation } from 'react-router-dom';
+import numberWithCommas from 'utils/numberWithCommas';
 const Cart = () => {
-	const location = useLocation();
-	const cartItems = useSelector((state) => state.cartItems.value);
-
-	const [cartproducts, setCartProducts] = useState(
-		productData.getCartItemsInfo(cartItems),
-	);
+	const [products, setProducts] = useState([]);
 	const [totalProducts, setTotalProducts] = useState(0);
 	const [totalPrice, setTotalPrice] = useState(0);
+	useEffect(() => {
+		setProducts(JSON.parse(localStorage.getItem('CART')));
+	}, []);
 
 	useEffect(() => {
-		setCartProducts(productData.getCartItemsInfo(cartItems));
 		setTotalProducts(
-			cartItems.reduce((total, item) => total + Number(item?.quantity), 0),
+			products?.reduce((total, item) => total + Number(item?.quantity), 0),
 		);
 		setTotalPrice(
-			cartItems.reduce(
+			products?.reduce(
 				(total, item) => total + Number(item?.quantity) * Number(item?.price),
 				0,
 			),
 		);
-	}, [cartItems]);
-
+	}, [products]);
 	return (
 		<Helmet title='Giỏ hàng'>
 			<div className='cart'>
@@ -40,11 +34,11 @@ const Cart = () => {
 						<p>Bạn đang có {totalProducts} sản phẩm trong giỏ hàng</p>
 						<div className='cart__info__txt__price'>
 							<span>Thành tiền:</span>{' '}
-							<span>{numberWithCommas(Number(totalPrice))}</span>
+							<span>{numberWithCommas(totalPrice)} VNĐ</span>
 						</div>
 					</div>
 					<div className='cart__info__btn'>
-						{cartproducts.length > 0 ? (
+						{products?.length > 0 ? (
 							<Link to='/checkout'>
 								<Button size='block'>Đặt hàng</Button>
 							</Link>
@@ -57,7 +51,7 @@ const Cart = () => {
 					</div>
 				</div>
 				<div className='cart__list'>
-					{cartproducts.map((item, index) => (
+					{products?.map((item, index) => (
 						<CartItem item={item} key={index} />
 					))}
 				</div>

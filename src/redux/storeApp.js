@@ -5,7 +5,6 @@ import thunkMiddleware from 'redux-thunk';
 import rootReducer from './reducers/rootReducer';
 
 let store;
-
 function initStore(initialState) {
 	return createStore(
 		rootReducer,

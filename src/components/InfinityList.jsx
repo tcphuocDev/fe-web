@@ -19,7 +19,6 @@ const InfinityList = (props) => {
 		setData(props.data.slice(0, perLoad));
 		setIndex(1);
 	}, [props.data]);
-
 	useEffect(() => {
 		window.addEventListener('scroll', () => {
 			if (listRef && listRef.current) {
@@ -52,15 +51,8 @@ const InfinityList = (props) => {
 	return (
 		<div ref={listRef}>
 			<Grid col={3} mdCol={2} smCol={1} gap={20}>
-				{data.map((item, index) => (
-					<ProductCard
-						key={index}
-						img01={item.image01}
-						img02={item.image02}
-						name={item.title}
-						price={Number(item.price)}
-						slug={item.slug}
-					/>
+				{data?.map((item, index) => (
+					<ProductCard key={index} product={item} />
 				))}
 			</Grid>
 		</div>

@@ -1,26 +1,33 @@
-// @ts-nocheck
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ProductView from './ProductView';
 import Button from './Button';
 import productData from '../assets/fake-data/products';
 import { closeModal } from 'redux/actions/modal.actions';
+import { useParams } from 'react-router-dom';
+import { detail } from 'redux/actions/product.actions';
+import { isEmpty } from 'lodash';
 
 const ProductViewModal = () => {
-	const state = useSelector((state) => state);
+	const [isLoading, setIsLoading] = useState(false);
+	const [product, setProduct] = useState();
 	const dispatch = useDispatch();
-
-	const [product, setProduct] = useState(undefined);
-
+	const productDetail = useSelector((state) => state.product);
+	const id = useSelector((state) => state.modal.value);
+	const isOpenModal = useSelector((state) => state.modal.isOpenModal);
 	useEffect(() => {
-		setProduct(productData.getProductBySlug(state.modal.value));
-	}, [state.modal.value]);
+		if (id) {
+			dispatch(
+				detail(id, () => {
+					setIsLoading(true);
+				}),
+			);
+		}
+	}, [id]);
 	return (
-		<div
-			className={`product-view__modal ${product === undefined ? '' : 'active'}`}
-		>
+		<div className={`product-view__modal ${isOpenModal ? 'active' : ''}`}>
 			<div className='product-view__modal__content'>
-				<ProductView product={product} />
+				{isLoading && <ProductView product={productDetail?.item} />}
 				<div className='product-view__modal__content__close'>
 					<Button size='sm' onClick={() => dispatch(closeModal())}>
 						đóng

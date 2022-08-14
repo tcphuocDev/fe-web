@@ -10,9 +10,10 @@ import { Provider, useSelector } from 'react-redux';
 import { useStore } from 'redux/storeApp';
 const Layout = (props) => {
 	const store = useStore(props.initialReduxState);
+	console.log('stroe', store);
 	return (
-		<BrowserRouter>
-			<Provider store={store}>
+		<Provider store={store}>
+			<BrowserRouter>
 				<Route
 					render={(props) => (
 						<div>
@@ -33,8 +34,8 @@ const Layout = (props) => {
 						</div>
 					)}
 				/>
-			</Provider>
-		</BrowserRouter>
+			</BrowserRouter>
+		</Provider>
 	);
 };
 
