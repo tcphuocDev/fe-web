@@ -105,12 +105,17 @@
       &__del{
         font-size: 1.5rem;
 
-        i{
-          cursor: pointer;
+        &__icon {
+          width: 2.5em !important;
 
           &:hover{
             color: $main-color;
           }
+
+        }
+
+        i{
+          cursor: pointer;
         }
 
       }

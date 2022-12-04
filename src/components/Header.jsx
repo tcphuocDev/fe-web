@@ -76,7 +76,7 @@ const Header = (props) => {
 								</Link>
 							</div>
 							<div className='header__menu__item header__menu__right__item__cart__length'>
-								<span>{0}</span>
+								<span>{totalProduct}</span>
 							</div>
 						</div>
 						<div className='header__menu__item header__menu__right__item'>

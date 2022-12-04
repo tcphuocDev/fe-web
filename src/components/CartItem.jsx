@@ -7,6 +7,8 @@ import {
 	onChangeQuantityItemInLocal,
 } from 'common/local-storage';
 import { formatMoney } from 'common/common';
+import { Popconfirm } from 'antd';
+import { DeleteOutlined } from '@material-ui/icons';
 const CartItem = ({
 	changeCart,
 	setChangeCart,
@@ -91,13 +93,31 @@ const CartItem = ({
 					</div>
 				</div>
 				<div className='cart__item__info__del'>
-					<i
+					<Popconfirm
+						title='Bạn có muốn xoá sản phẩm này không?'
+						onConfirm={() => {
+							deleteItemInLocal(product.version.id);
+							setIsDelete(!isDelete);
+						}}
+						okText='Có'
+						cancelText='Không'
+					>
+						<DeleteOutlined
+							className='cart__item__info__del__icon'
+							width={'2em'}
+							style={{
+								cursor: 'pointer',
+								paddingRight: 10,
+							}}
+						/>
+					</Popconfirm>
+					{/* <i
 						className='bx bx-trash'
 						onClick={() => {
 							deleteItemInLocal(product.version.id);
 							setIsDelete(!isDelete);
 						}}
-					></i>
+					></i> */}
 				</div>
 			</div>
 		</div>

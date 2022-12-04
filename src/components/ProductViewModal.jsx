@@ -2,15 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ProductView from './ProductView';
 import Button from './Button';
-import productData from '../assets/fake-data/products';
 import { closeModal } from 'redux/actions/modal.actions';
-import { useParams } from 'react-router-dom';
 import { detail } from 'redux/actions/product.actions';
-import { isEmpty } from 'lodash';
 
 const ProductViewModal = () => {
 	const [isLoading, setIsLoading] = useState(false);
-	const [product, setProduct] = useState();
 	const dispatch = useDispatch();
 	const productDetail = useSelector((state) => state.product);
 	const id = useSelector((state) => state.modal.value);
@@ -27,7 +23,13 @@ const ProductViewModal = () => {
 	return (
 		<div className={`product-view__modal ${isOpenModal ? 'active' : ''}`}>
 			<div className='product-view__modal__content'>
-				{isLoading && <ProductView product={productDetail?.item} />}
+				{isLoading && (
+					<ProductView
+						product={productDetail?.item}
+						isLoading={isLoading}
+						setIsLoading={setIsLoading}
+					/>
+				)}
 				<div className='product-view__modal__content__close'>
 					<Button size='sm' onClick={() => dispatch(closeModal())}>
 						đóng

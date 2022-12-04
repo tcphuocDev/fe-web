@@ -11,7 +11,6 @@ const UserInfoDetail = (props) => {
 	useEffect(() => {
 		setUser(JSON.parse(localStorage.getItem('user')));
 	}, [changeInfo]);
-	console.log('user=================', user);
 	return (
 		<>
 			<div className='user__content__info__top'>

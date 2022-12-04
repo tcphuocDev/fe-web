@@ -329,6 +329,8 @@ $breakpoint-mobile: 768px;
                     flex-direction: column;
                     align-items: center;
     
+                   &--wrapper {
+                    position: relative;
                     input {
                         width: 290px;
                         height: 34px;
@@ -341,8 +343,6 @@ $breakpoint-mobile: 768px;
                             width: 50vw;
                         }
                     }
-                    
-    
                     &--name {
                         background-image: url(../../assets/images/user.svg);
                         background-repeat: no-repeat;
@@ -369,6 +369,20 @@ $breakpoint-mobile: 768px;
                         font-size: 15px;
                         background-size: 23px;
                     }
+                    &--show {
+                        position: absolute;
+                        top: 15px;
+                        right: 20px;
+                        font-size: 1.6rem;
+                        cursor: pointer;
+
+                        @include mobile {
+                            top: 18px;
+                            right: 9px;
+                            font-size: 1.6rem;
+                        }
+                    }
+                   }
     
                     &--submit {
                         margin-top: 20px;

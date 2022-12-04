@@ -25,27 +25,34 @@ const Checkout = () => {
 	useEffect(() => {
 		setUser(JSON.parse(localStorage.getItem('user')));
 	}, []);
-	// const [information, setInformation] = useState({
-	// 	fullname: '',
-	// 	phone: '',
-	// 	address: '',
-	// 	gender: '',
-	// 	isGender: false,
-	// 	isFullname: false,
-	// 	isPhone: false,
-	// 	isAddress: false,
-	// });
+	const check = () => {
+		if (fullname === '') {
+			toast.warning('Vui lòng chọn màu sắc !', {
+				position: toast.POSITION.TOP_RIGHT,
+			});
+			return false;
+		}
+		if (phone === undefined) {
+			toast.warning('Vui lòng điền thông tin điện thoại !', {
+				position: toast.POSITION.TOP_RIGHT,
+			});
+			return false;
+		}
+		return true;
+	};
 	useEffect(() => {
 		setProducts(getFromLocal('cart'));
 	}, []);
 	const totalPrice = numberWithCommas(
 		getFromLocal('cart').reduce(
 			(total, item) =>
-				total +
-				parseInt(item.product.price) * parseInt(item.version.currentQuantity),
+				item?.product?.salePrice
+					? total + item?.product?.salePrice * item.version.currentQuantity
+					: total + item?.product?.price * item.version.currentQuantity,
 			0,
 		),
 	);
+
 	const handleCheckout = async () => {
 		const dataSubmit = {};
 		dataSubmit.phone = phone;
@@ -70,6 +77,8 @@ const Checkout = () => {
 			toast.success(data.message);
 			resetItemInLocal();
 			setStatus(1);
+
+			history.push('/');
 		} else {
 			toast.error(data.message);
 		}
@@ -83,8 +92,8 @@ const Checkout = () => {
 			email: email,
 			gender: +gender,
 			products: getFromLocal('cart')?.map((e) => ({
-				productId: e.product?.id,
 				productVersionId: e.version?.id,
+				productId: e.product?.id,
 				quantity: e.version?.currentQuantity,
 			})),
 		};
@@ -106,7 +115,7 @@ const Checkout = () => {
 							Thông tin hóa đơn
 						</h1>
 						<div className='checkout__column__item__form'>
-							<form action=''>
+							<form action='' onSubmit={handleSubmit}>
 								<div className='checkout__column__item__form__group'>
 									<label htmlFor=''>Họ và tên</label>
 									<input
@@ -115,6 +124,7 @@ const Checkout = () => {
 										id=''
 										value={fullname}
 										onChange={(e) => setFullname(e.target.value)}
+										required
 									/>
 								</div>
 								<div className='checkout__column__item__form__group'>
@@ -127,6 +137,7 @@ const Checkout = () => {
 												id=''
 												value={email}
 												onChange={(e) => setEmail(e.target.value)}
+												required
 											/>
 										</div>
 										<div className='col l-6 m-12 checkout__column__item__form__group__item'>
@@ -137,6 +148,7 @@ const Checkout = () => {
 												id=''
 												value={phone}
 												onChange={(e) => setPhone(e.target.value)}
+												required
 											/>
 										</div>
 									</div>
@@ -160,6 +172,7 @@ const Checkout = () => {
 										onChange={(e) => {
 											setGender(e.target.value);
 										}}
+										required
 									>
 										<option value='' disabled selected>
 											Giới tính

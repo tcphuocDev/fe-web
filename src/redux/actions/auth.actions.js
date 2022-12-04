@@ -7,6 +7,7 @@ import {
 	loginService,
 	registerService,
 	update,
+	updatePassword,
 } from '../../service/auth.service';
 import * as types from '../constants';
 
@@ -87,6 +88,23 @@ export const updateUser = (params, onSuccess) => {
 		if (response.statusCode !== 200) {
 			notification.error({
 				message: 'Sửa thông tin thất bại!',
+				description: response.message,
+			});
+		} else {
+			dispatch({
+				type: types.UPDATE,
+			});
+			onSuccess();
+		}
+	};
+};
+
+export const changePassword = (params, onSuccess) => {
+	return async (dispatch) => {
+		const response = await updatePassword(params);
+		if (response.statusCode !== 200) {
+			notification.error({
+				message: 'Thay đổi mật khẩu thất bại!',
 				description: response.message,
 			});
 		} else {

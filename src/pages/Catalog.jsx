@@ -14,8 +14,8 @@ import SearchBar from 'components/SearchBar';
 import SliderProton from 'components/SliderProton';
 import { Pagination } from '@mui/material';
 import EmptyView from 'components/EmptyView';
-import { Paper } from '@material-ui/core';
 import ProductSort from 'components/Product-sort';
+import NavbarCategory from 'components/NavbarCategory';
 
 const Catalog = () => {
 	const dispatch = useDispatch();
@@ -165,6 +165,10 @@ const Catalog = () => {
 						<div className='catalog__filter__widget__title'>
 							danh mục sản phẩm
 						</div>
+						{/* {listCategory_v1?.map((item, index) => (
+							<NavbarCategory items={item} key={index} />
+						))} */}
+						{/* <NavbarCategory items={listCategory_v1} /> */}
 						<div className='catalog__filter__widget__content'>
 							{categoryList?.items?.length
 								? categoryList?.items?.map((item, index) => (
@@ -184,9 +188,8 @@ const Catalog = () => {
 								: ''}
 						</div>
 					</div>
-
 					<div className='catalog__filter__widget'>
-						<div className='catalog__filter__widget__title'>màu sắc</div>
+						<div className='catalog__filter__widget__title'>Màu sắc</div>
 						<div className='catalog__filter__widget__content'>
 							{colorList?.items?.length
 								? colorList?.items?.map((item, index) => (
@@ -206,7 +209,6 @@ const Catalog = () => {
 								: ''}
 						</div>
 					</div>
-
 					<div className='catalog__filter__widget'>
 						<div className='catalog__filter__widget__title'>kích cỡ</div>
 						<div className='catalog__filter__widget__content'>

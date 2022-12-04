@@ -35,8 +35,6 @@ const Cart = () => {
 			),
 		);
 	}, [getFromLocal('cart')]);
-	console.log('state', state);
-	console.log('isEmpty(state.auth.token)', isEmpty(state.auth.token));
 	return (
 		<Helmet title='Giỏ hàng'>
 			<div className='cart'>
@@ -78,16 +76,6 @@ const Cart = () => {
 					</div>
 				</div>
 				<div className='cart__list'>
-					{/* {getFromLocal('cart')?.map((item, index) => (
-						<CartItem
-							product={item}
-							key={index}
-							changeCart={changeCart}
-							setChangeCart={setChangeCart}
-							setIsDelete={setIsDelete}
-							isDelete={isDelete}
-						/>
-					))} */}
 					{getFromLocal('cart').length > 0 ? (
 						<>
 							{getFromLocal('cart')?.map((item, index) => (

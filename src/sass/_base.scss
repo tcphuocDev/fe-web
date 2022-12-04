@@ -42,6 +42,9 @@ a:hover {
 img {
     max-width: 100%;
 }
+.ant-modal-header{
+    background-color: $main-color;
+}
 
 @each $color, $val in $colors {
     .color-#{$color} {

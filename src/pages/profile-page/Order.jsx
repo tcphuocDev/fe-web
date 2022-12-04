@@ -17,6 +17,7 @@ import {
 	Col,
 	Button,
 } from 'antd';
+import { EyeOutlined } from '@ant-design/icons';
 
 const OrderPageUser = () => {
 	const state = useSelector((state) => state);
@@ -59,10 +60,6 @@ const OrderPageUser = () => {
 				),
 		},
 	];
-	// const handlePrint = useReactToPrint({
-	// 	content: () => componentRef.current,
-	// 	copyStyles: true,
-	// });
 	const showModalDetail = (id) => {
 		setVisible(true);
 		dispatch(detailOrders(id));
@@ -73,7 +70,6 @@ const OrderPageUser = () => {
 		// form.resetFields();
 	};
 	console.log(state);
-
 	return (
 		<Helmet title='Đơn hàng của tôi'>
 			<div className='user'>
@@ -91,8 +87,8 @@ const OrderPageUser = () => {
 										<tr>
 											<th>#</th>
 											<th>Mã đơn hàng</th>
-											<th>Tên sản phẩm</th>
 											<th>Ngày đặt hàng</th>
+											<th>Trạng thái</th>
 											<th>Hành động</th>
 										</tr>
 									</thead>
@@ -103,7 +99,15 @@ const OrderPageUser = () => {
 												<td>{e?.id}</td>
 												<td>{formatTime(e?.createdAt)}</td>
 												<td>{OrderStatus[e?.status]}</td>
-												<td onClick={() => showModalDetail(e?.id)}>Xem</td>
+												<td onClick={() => showModalDetail(e?.id)}>
+													<EyeOutlined
+														style={{
+															cursor: 'pointer',
+															paddingRight: 10,
+														}}
+														onClick={() => showModalDetail(e.id)}
+													/>
+												</td>
 											</tr>
 										))}
 									</tbody>
@@ -117,6 +121,7 @@ const OrderPageUser = () => {
 					visible={visible}
 					// onOk={handleOk}
 					// confirmLoading={confirmLoading}
+					className='ant-modal-header'
 					onCancel={handleCancel}
 					footer={false}
 					width={1000}

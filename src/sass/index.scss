@@ -2,6 +2,7 @@
 @import './mixins';
 @import './base';
 @import './grid';
+@import '~antd/dist/antd.css';
 
 @import './components/header';
 @import './components/footer';
@@ -26,6 +27,6 @@
 @import './components/cart-empty';
 @import './components/search_bar';
 @import './components/empty-view';
-@import '~antd/dist/antd.css';
+@import './components/navbar-category';
 
 

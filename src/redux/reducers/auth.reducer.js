@@ -34,10 +34,15 @@ const authReducer = (state = initialState, action) => {
 			return {
 				...state,
 			};
+		case types.CHANGE_PASSWORD:
+			return {
+				...state,
+			};
 		case types.LOGOUT:
 			localStorage.removeItem('user');
 			localStorage.removeItem('token');
 			localStorage.removeItem('refreshToken');
+			localStorage.removeItem('cart');
 			return {
 				token: null,
 				refreshToken: null,

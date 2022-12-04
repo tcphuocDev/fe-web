@@ -1,23 +1,20 @@
 // @ts-nocheck
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
 import { withRouter } from 'react-router';
-import Button from './Button';
+// import Button from './Button';
 import { toast } from 'react-toastify';
 import { ROOT_URL } from 'constant/config';
-import { addToCart } from 'redux/actions/cart.action';
 import { isEmpty, map, uniq } from 'lodash';
 import { addToLocal } from 'common/local-storage';
 import { formatMoney } from 'common/common';
+import { Button } from 'antd';
 
 const ProductView = (props) => {
-	const { product } = props;
-	const dispatch = useDispatch();
+	const { product, isLoading, setIsLoading } = props;
 	const [previewImg, setPreViewImg] = useState(
 		`${ROOT_URL}/${product?.productImages[0]?.url}`,
 	);
 	const [descriptionExpand, setDescriptionExpand] = useState(false);
-	const [change, setChange] = useState(false);
 	const [color, setColor] = useState(undefined);
 	const [size, setSize] = useState(undefined);
 	const [quantity, setQuantity] = useState(1);
@@ -37,34 +34,6 @@ const ProductView = (props) => {
 		}
 		return true;
 	};
-	const handleAddToCart = () => {
-		const params = {
-			slug: product.slug,
-			images: product?.productImages[0],
-			id: product?.id,
-			price: product?.price,
-			salePrice: product?.salePrice,
-			color: color,
-			size: size,
-			quantity: quantity,
-			versions: uniq(map(product?.productVersions, 'id')),
-			name: product?.name,
-		};
-		if (check()) {
-			dispatch(
-				addToCart(params, () => {
-					toast.success('Thêm vào giỏ hàng thành công');
-					setChange(!change);
-				}),
-			);
-			toast.success('Thêm sản phẩm giỏ hàng thành công !', {
-				position: toast.POSITION.TOP_RIGHT,
-			});
-		}
-	};
-
-
-
 	const handleBuy = () => {
 		if (!isEmpty(selectedItem)) {
 			addToLocal('cart', selectedItem);
@@ -113,20 +82,12 @@ const ProductView = (props) => {
 					<div
 						className='product__images__list__item'
 						onClick={() =>
-							setPreViewImg(`${ROOT_URL}/${product?.productImages[1]?.url}`)
+							setPreViewImg(`${ROOT_URL}/${product?.productImages[2]?.url}`)
 						}
 					>
-						<img src={`${ROOT_URL}/${product?.productImages[1]?.url}`} alt='' />
+						<img src={`${ROOT_URL}/${product?.productImages[2]?.url}`} alt='' />
 					</div>
-					<div
-						className='product__images__list__item'
-						onClick={() =>
-							setPreViewImg(`${ROOT_URL}/${product?.productImages[1]?.url}`)
-						}
-					>
-						<img src={`${ROOT_URL}/${product?.productImages[1]?.url}`} alt='' />
 				</div>
-
 				<div className='product__images__main'>
 					<img src={previewImg} alt='' />
 				</div>
@@ -172,17 +133,32 @@ const ProductView = (props) => {
 						<div className='product__info__item__list'>
 							{product?.productVersions?.map((item, index) => {
 								return (
-									<div
-										key={index}
-										className={`product__info__item__list__item ${
-											color !== item.color.code ? '' : 'active'
-										}`}
-										onClick={() =>
-											setSelectedItem({ version: item, product: product })
-										}
-									>
-										<div className={`circle bg-${item.color.code}`}></div>
-									</div>
+									// <div
+									// 	key={index}
+									// 	className={`product__info__item__list__item ${
+									// 		color !== item.color.code ? '' : 'active'
+									// 	}`}
+									// 	onClick={() =>
+									// 		setSelectedItem({ version: item, product: product })
+									// 	}
+									// >
+									// 	<div className={`circle bg-${item.color.code}`}></div>
+									// </div>
+									<>
+										<Button
+											// className={`circle bg-${item.color.code}`}
+											type={
+												selectedItem?.version.color?.name === item.color?.name
+													? 'primary'
+													: 'danger'
+											}
+											onClick={() =>
+												setSelectedItem({ version: item, product: product })
+											}
+										>
+											{item.color.name}
+										</Button>
+									</>
 								);
 							})}
 						</div>
@@ -193,20 +169,42 @@ const ProductView = (props) => {
 						</div>
 						<div className='product__info__item__list'>
 							{product?.productVersions?.map((item, index) => {
+								console.log('ite,-0', item);
 								return (
-									<div
-										key={index}
-										className={`product__info__item__list__item ${
-											size === item.size.name ? 'active' : ''
-										}`}
-										onClick={() =>
-											setSelectedItem({ version: item, product: product })
-										}
-									>
-										<div className='product__info__item__list__item__size'>
+									// <div
+									// 	key={index}
+									// 	className={`product__info__item__list__item ${
+									// 		size === item.size.name ? 'active' : ''
+									// 	}`}
+									// 	onClick={() =>
+									// 		setSelectedItem({ version: item, product: product })
+									// 	}
+									// >
+									// 	{/* <span
+									// 		className={`product__info__item__list__item ${
+									// 			size === item.size.name ? 'active' : ''
+									// 		}`}
+									// 		onClick={() => setSize(item.size.name)}
+									// 	></span> */}
+									// 	<div className='product__info__item__list__item__size'>
+									// 		{item.size.name}
+									// 	</div>
+									// </div>
+									<>
+										<Button
+											key={index}
+											type={
+												selectedItem?.version.size?.name === item.size.name
+													? 'primary'
+													: 'danger'
+											}
+											onClick={() =>
+												setSelectedItem({ version: item, product: product })
+											}
+										>
 											{item.size.name}
-										</div>
-									</div>
+										</Button>
+									</>
 								);
 							})}
 						</div>
@@ -239,10 +237,10 @@ const ProductView = (props) => {
 					</div>
 					<div className='product__info__item'>
 						<Button size='sm' onClick={handleBuy}>
-							thêm vào giỏ
+							Thêm vào giỏ
 						</Button>
 						<Button size='sm' onClick={goToCart}>
-							mua ngay
+							Mua ngay
 						</Button>
 					</div>
 				</div>
@@ -267,10 +265,7 @@ const ProductView = (props) => {
 				</div>
 			</div>
 		</div>
-	</div>
 	);
 };
-
-
 
 export default withRouter(ProductView);

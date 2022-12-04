@@ -57,6 +57,7 @@
           @include flex(flex-start, flex-start);
           flex-direction: column;
           margin: 10px 0;
+          position: relative;
 
           label{
             display: block;
@@ -76,6 +77,13 @@
             transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;  
             border: none;
             outline: none;
+          }
+          &--show {
+            position: absolute;
+            top: 45px;
+            right: 10px;
+            font-size: 1.5rem;
+            cursor: pointer;
           }
           select{
             width: 100%;

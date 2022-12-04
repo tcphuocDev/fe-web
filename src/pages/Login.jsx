@@ -8,6 +8,7 @@ import { getProfile, login, register } from '../redux/actions/auth.actions';
 import { Redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { notification } from 'antd';
+import { EyeOutlined } from '@ant-design/icons';
 const Login = (props) => {
 	const [changeUser, setChangeUser] = useState(false);
 	const [loginForm, setLoginFrom] = useState(false);
@@ -16,6 +17,7 @@ const Login = (props) => {
 	const [email, setEmail] = useState('');
 	const [phone, setPhone] = useState('');
 	const [gender, setGender] = useState('');
+	const [isShowPassword, setIsShowPassword] = useState(false);
 	const dispatch = useDispatch();
 	const state = useSelector((state) => state);
 	const onSubmit = (e) => {
@@ -230,22 +232,37 @@ const Login = (props) => {
 							className='login__login-container__main-container__form-container__form'
 							onSubmit={onSubmit}
 						>
-							<input
-								className='login__login-container__main-container__form-container__form--email'
-								type='email'
-								placeholder='Email'
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-								required
-							/>
-							<input
-								className='login__login-container__main-container__form-container__form--password'
-								type='password'
-								placeholder='Password'
-								value={password}
-								onChange={(e) => setPassword(e.target.value)}
-								required
-							/>
+							<div className='login__login-container__main-container__form-container__form--wrapper'>
+								<input
+									className='login__login-container__main-container__form-container__form--wrapper--email'
+									type='email'
+									placeholder='Email'
+									value={email}
+									onChange={(e) => setEmail(e.target.value)}
+									required
+								/>
+							</div>
+							<div className='login__login-container__main-container__form-container__form--wrapper'>
+								<input
+									className='login__login-container__main-container__form-container__form--wrapper--password'
+									type={isShowPassword ? 'text' : 'password'}
+									placeholder='Password'
+									value={password}
+									onChange={(e) => setPassword(e.target.value)}
+									required
+								/>
+								<span
+									className='login__login-container__main-container__form-container__form--wrapper--show'
+									onClick={() => setIsShowPassword(!isShowPassword)}
+								>
+									<i
+										className={
+											isShowPassword ? 'bx bx-show' : 'bx bx-low-vision'
+										}
+									></i>
+								</span>
+							</div>
+
 							<button className='login__login-container__main-container__form-container__form--submit'>
 								Đăng nhập
 							</button>
